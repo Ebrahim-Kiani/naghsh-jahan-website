@@ -37,11 +37,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #internal modules
     'home_module',
-    'django_render_partial'
+    'account_module',
+    'product_module',
+    #external modules
+    'django_render_partial',
 
 ]
-
+AUTH_USER_MODEL = 'account_module.User'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
