@@ -1,0 +1,71 @@
+{% extends 'shared/_layout.html' %}
+
+{% block content %}
+
+    <!-- Start Contact Us  -->
+    <div class="contact-box-main">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-sm-12">
+                    <div class="contact-info-left">
+                        <h2>CONTACT INFO</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent urna diam, maximus ut ullamcorper quis, placerat id eros. Duis semper justo sed condimentum rutrum. Nunc tristique purus turpis. Maecenas vulputate. </p>
+                        <ul>
+                            <li>
+                                <p><i class="fas fa-map-marker-alt"></i>Address: Michael I. Days 3756 <br>Preston Street Wichita,<br> KS 67213 </p>
+                            </li>
+                            <li>
+                                <p><i class="fas fa-phone-square"></i>Phone: <a href="tel:+1-888705770">+1-888 705 770</a></p>
+                            </li>
+                            <li>
+                                <p><i class="fas fa-envelope"></i>Email: <a href="mailto:contactinfo@gmail.com">contactinfo@gmail.com</a></p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-sm-12">
+                    <div class="contact-form-right">
+                        <h2 style="text-align:right">تماس با ما</h2>
+                        <p style="text-align:right">پرده سرای بزرگ نقش جهان واقع در فلاورجان و فولاد شهر </p>
+                        {% csrf_token %}
+                        <form id="main-contact-form" action="{% url 'contact_us' %}" method="post" style="text-align:right">
+                            {% csrf_token %}
+
+
+                                <div class="col-md-12">
+                                    {{ form.full_name.label_tag }}
+                                {{ form.full_name }}
+                                {{ form.full_name.errors }}
+                                </div>
+                                <div class="col-md-12">
+                                        {{ form.email.label_tag }}
+                                {{ form.email }}
+                                {{ form.email.errors }}
+                                </div>
+                                <div class="col-md-12">
+                                    {{ form.title.label_tag }}
+                                {{ form.title }}
+                                {{ form.title.errors }}
+                                </div>
+                                <div class="col-md-12">
+                                       {{ form.message.label_tag }}
+                                {{ form.message }}
+                                {{ form.message.errors }}
+                                    </div>
+                                    <div class="submit-button text-center">
+                                        <button type="submit" class="btn hvr-hover">ارسال</button>
+                                        <div id="msgSubmit" class="h3 text-center hidden"></div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Cart -->
+
+
+{% endblock %}
