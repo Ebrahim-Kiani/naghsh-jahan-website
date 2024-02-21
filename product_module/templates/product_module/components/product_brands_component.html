@@ -1,0 +1,17 @@
+<div class="filter-brand-left">
+                            <div class="title-left">
+                                <h3>برندها</h3>
+                            </div>
+                            <div class="brand-box" tabindex="1" style="overflow: hidden; outline: none;">
+                                <ul>
+                                    {% for brand in product_brand %}
+                                    <li>
+                                        <div class="radio radio-danger">
+                                            <input name="survey" id="Radios1" value="Yes" type="radio">
+                                            <label for="Radios1"> {{ brand.title }} </label>
+                                        </div>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>

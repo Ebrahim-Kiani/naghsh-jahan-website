@@ -7,7 +7,7 @@ class SiteSetting(models.Model):
     site_name = models.CharField(max_length=200, verbose_name='نام سایت')
     site_url = models.CharField(max_length=200, verbose_name='دامنه سایت')
     address = models.CharField(max_length=300, verbose_name='آدرس')
-    address2 = models.CharField(max_length=300, verbose_name='آدرس2')
+    address2 = models.CharField(max_length=300, verbose_name='آدرس2' , blank=True)
     phone = models.CharField(max_length=200, null=True, blank=True, verbose_name='تلفن')
     copy_right = models.TextField(verbose_name='متن کپی رایت سایت')
     about_us_text = models.TextField(verbose_name='متن درباره ما سایت')

@@ -1,13 +1,12 @@
 {% load render_partial %}
-
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
-
-{% include 'shared/site_header_refrences.html' %}
+{% include 'shared/site_header_component.html' %}
 
 <body>
-{% render_partial 'home_module.views.site_header_component' %}
+{% render_partial 'home_module.views.site_header_refrences' %}
 
 {% block content %}
 
@@ -15,8 +14,9 @@
 
 
 
-{% render_partial 'home_module.views.site_footer_component' %}
+{% include 'shared/site_footer_component.html' %}
+{% render_partial 'home_module.views.site_footer_refrences' %}
 
-{% include 'shared/site_footer_refrences.html' %}
 </body>
+
 </html>

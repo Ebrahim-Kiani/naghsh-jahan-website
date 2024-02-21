@@ -11,8 +11,11 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+from django.template.context_processors import media
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -41,8 +44,11 @@ INSTALLED_APPS = [
     'home_module',
     'account_module',
     'product_module',
+    'contact_module',
+    'site_module',
     #external modules
     'django_render_partial',
+   # 'django.contrib.staticfiles',
 
 ]
 AUTH_USER_MODEL = 'account_module.User'
@@ -122,8 +128,13 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
+STATIC_URL = '/static/'
+if not DEBUG:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static/'), ]
+MEDIA_URL = '/medias/'
 
-STATIC_URL = 'static/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

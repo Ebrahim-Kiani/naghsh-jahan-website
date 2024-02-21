@@ -1,4 +1,5 @@
 from django.shortcuts import redirect
+from django.views.generic import CreateView
 
 from product_module.models import Product
 from .forms import ContactUsModelForm
