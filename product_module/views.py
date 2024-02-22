@@ -1,6 +1,5 @@
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
-from django.views.generic.base import TemplateView, View
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView
 from .models import Product
