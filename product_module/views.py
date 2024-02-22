@@ -3,7 +3,9 @@ from django.shortcuts import render, redirect
 from django.views.generic.base import TemplateView, View
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView
-from .models import Product, ProductCategory, ProductBrand
+from .models import Product
+from category_module.models import ProductCategory,ProductBrand
+
 
 
 # Create your views here.
@@ -17,7 +19,7 @@ class ProductListView(ListView):
 
     def get_queryset(self):
         query = super(ProductListView, self).get_queryset()
-        category_name = self.kwargs.get('cat')
+        category_name = self.kwargs.get('categories')
         brand_name = self.kwargs.get('brand')
 
         if category_name is not None:
@@ -51,6 +53,7 @@ class AddProductFavorite(CreateView):
 
 def product_categories_component(request: HttpRequest):
     product_categories = ProductCategory.objects.filter(is_active=True, is_delete=False)
+
     context = {
         'product_categories': product_categories
     }

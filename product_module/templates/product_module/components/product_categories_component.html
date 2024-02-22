@@ -9,7 +9,7 @@
                                     <div class="collapse show" id="sub-men1" data-parent="#list-group-men">
                                         <div class="list-group">
                                             {% for category in product_categories  %}
-                                            <a href="{% url 'product-category-list' cat=category.url_title %}" class="list-group-item list-group-item-action active">{{ category.title }} <small class="text-muted">(50)</small></a>
+                                            <a href="{% url 'product-category-list' categories=category.url_title %}" class="list-group-item list-group-item-action active">{{ category.title }} <small class="text-muted">(50)</small></a>
                                             {% endfor %}
                                         </div>
                                     </div>

@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'product_module',
     'contact_module',
     'site_module',
+    'category_module',
     #external modules
     'django_render_partial',
    # 'django.contrib.staticfiles',
