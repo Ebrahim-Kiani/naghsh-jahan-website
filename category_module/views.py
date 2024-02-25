@@ -1,17 +1,26 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
 from .models import ProductCategory
+from django.utils.safestring import mark_safe
 # Create your views here.
 
 
-class CategoryListView(ListView):
-    template_name = 'shared/site_header_refrences.html'
-    model = ProductCategory
+# build dynamic herder references for main categories and sub categories
+def site_header_references_categories(request):
+    main_categories = ProductCategory.objects.filter(parent_category__isnull=True)
+    sub_categories = ProductCategory.objects.filter(parent_category__isnull=False)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        main_categories = ProductCategory.objects.filter(parent_category__isnull=True)
-        sub_categories = ProductCategory.objects.filter(parent_category__isnull=False)
-        context['main_categories'] = main_categories
-        context['sub_categories'] = sub_categories
-        return context
+# title can not send to template because its farsi, so it should be first encode(ex:b'\xd9\xbe\xd8\xb1\xd8\xaf\xd9\x87')
+    # and second decoded to utf-8 standard and making safe for templates
+    for main_category in main_categories:
+        main_category.title = mark_safe((main_category.title.encode('utf-8')).decode('utf-8', errors='replace'))
+
+
+    for sub_category in sub_categories:
+        sub_category.title = mark_safe((sub_category.title.encode('utf-8')).decode('utf-8', errors='replace'))
+
+    context = {
+        'main_categories': main_categories,
+        'sub_categories': sub_categories
+    }
+
+    return render(request, 'shared/site_header_references.html', context)

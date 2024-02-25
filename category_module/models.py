@@ -1,5 +1,6 @@
+from django.core.exceptions import ValidationError
 from django.db import models
-from django.utils.text import slugify
+from slugify import slugify
 
 # Create your models here.
 class ProductBrand(models.Model):
@@ -16,14 +17,19 @@ class ProductBrand(models.Model):
 
 class ProductCategory(models.Model):
     title = models.CharField(max_length=100, db_index=True, verbose_name='عنوان')
-    url_title = models.CharField(max_length=100, db_index=True, verbose_name='عنوان در URL', null=False)
+    url_title = models.CharField(max_length=100, db_index=True, verbose_name='عنوان در URL', null=False, unique=True)
     is_active = models.BooleanField(verbose_name='فعال / غیر فعال')
     is_delete = models.BooleanField(verbose_name='حذف شده / حذف نشده')
     parent_category = models.ForeignKey('self', blank=True, null=True, related_name='subcategories',
                                      on_delete=models.CASCADE)
 
+    def clean(self):
+        existing_categories = ProductCategory.objects.exclude(id=self.id)
+        if existing_categories.filter(title=self.title).exists():
+            raise ValidationError('A category with this title already exists.')
+
     def __str__(self):
-        return f'({self.title} - {self.url_title} )'
+       return f'({self.title} )'
 
     def save(self, *args, **kwargs):
         self.url_title = slugify(self.title)
