@@ -1,3 +1,4 @@
+from django.db.models import Count
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
@@ -49,14 +50,22 @@ class AddProductFavorite(CreateView):
         request.session["product_favorites"] = product_id
         return redirect(product.get_absolute_url())
 
+# sending categories to products page
+def product_categories_component(request):
+    main_categories = ProductCategory.objects.filter(parent_category__isnull=True)
+    sub_categories = ProductCategory.objects.filter(parent_category__isnull=False)
 
-def product_categories_component(request: HttpRequest):
-    product_categories = ProductCategory.objects.filter(is_active=True, is_delete=False)
+
+
 
     context = {
-        'product_categories': product_categories
+        'main_categories': main_categories,
+        'sub_categories': sub_categories,
+
     }
+
     return render(request, 'product_module/components/product_categories_component.html', context)
+
 
 def product_brands_component(request: HttpRequest):
     product_brands = ProductBrand.objects.filter(is_active=True)

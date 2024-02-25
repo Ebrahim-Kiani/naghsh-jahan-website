@@ -2,32 +2,32 @@
                             <div class="title-left">
                                 <h3>دسته بندی ها</h3>
                             </div>
+
                             <div class="list-group list-group-collapse list-group-sm list-group-tree" id="list-group-men" data-children=".sub-men">
+
                                 <div class="list-group-collapse sub-men">
-                                    <a class="list-group-item list-group-item-action" href="#sub-men1" data-toggle="collapse" aria-expanded="true" aria-controls="sub-men1">Clothing <small class="text-muted">(100)</small>
-								</a>
+                                {% for main_category in main_categories %}
+                                    <p class="list-group-item list-group-item-action" href=""  data-toggle="collapse" aria-expanded="false" aria-controls="sub-men1">{{ main_category.title }}
+								</p>
                                     <div class="collapse show" id="sub-men1" data-parent="#list-group-men">
+
                                         <div class="list-group">
-                                            {% for category in product_categories  %}
-                                            <a href="{% url 'product-category-list' categories=category.url_title %}" class="list-group-item list-group-item-action active">{{ category.title }} <small class="text-muted">(50)</small></a>
+                                            {% for sub_category in sub_categories  %}
+
+                                                {% if sub_category.parent_category == main_category %}
+                                                    <a href="{% url 'product-category-list' categories=sub_category.url_title %}" class="list-group-item list-group-item-action active">{{ sub_category.title }}
+                                                        <small class="text-muted">{{ sub_category.product_categories.all.count }}</small>
+                                                    </a>
+                                                {% endif %}
                                             {% endfor %}
+
                                         </div>
+
                                     </div>
+                                {% endfor %}
                                 </div>
-                                <div class="list-group-collapse sub-men">
-                                    <a class="list-group-item list-group-item-action" href="#sub-men2" data-toggle="collapse" aria-expanded="false" aria-controls="sub-men2">Footwear
-								<small class="text-muted">(50)</small>
-								</a>
-                                    <div class="collapse" id="sub-men2" data-parent="#list-group-men">
-                                        <div class="list-group">
-                                            <a href="#" class="list-group-item list-group-item-action">Sports Shoes <small class="text-muted">(10)</small></a>
-                                            <a href="#" class="list-group-item list-group-item-action">Sneakers <small class="text-muted">(20)</small></a>
-                                            <a href="#" class="list-group-item list-group-item-action">Formal Shoes <small class="text-muted">(20)</small></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="#" class="list-group-item list-group-item-action"> Men  <small class="text-muted">(150) </small></a>
-                                <a href="#" class="list-group-item list-group-item-action">Accessories <small class="text-muted">(11)</small></a>
-                                <a href="#" class="list-group-item list-group-item-action">Bags <small class="text-muted">(22)</small></a>
+
+
                             </div>
+
                         </div>

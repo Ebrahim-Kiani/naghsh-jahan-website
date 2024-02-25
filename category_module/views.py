@@ -18,6 +18,7 @@ def site_header_references_categories(request):
     for sub_category in sub_categories:
         sub_category.title = mark_safe((sub_category.title.encode('utf-8')).decode('utf-8', errors='replace'))
 
+
     context = {
         'main_categories': main_categories,
         'sub_categories': sub_categories
