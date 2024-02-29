@@ -1,12 +1,10 @@
-from django.db.models import QuerySet
+from django.views.generic import ListView
+from .models import slide
+from site_module.models import SiteSetting, FooterLinkBox
 from django.shortcuts import render
-from site_module.models import SiteSetting, FooterLinkBox, Slider
-
-
 # Create your views here.
 
-def index_page(request):
-    return render(request, 'home_module/index_page.html')
+
 
 
 # site_header_partial
@@ -23,3 +21,17 @@ def site_footer_refrences(request):
         'footer_link_boxes': footer_link_boxes
     }
     return render(request, 'shared/site_footer_references.html', context)
+
+
+
+# making dynamic slides in home page
+def dynamic_slides(request):
+    all_slides = slide.objects.all()
+    # Preprocess slides_class list
+    slides_class = ['text-right', 'text-center', 'text-left']
+
+    context = {
+        'slides': all_slides,
+        'slides_class': slides_class
+    }
+    return render(request, 'home_module/index_page.html', context)

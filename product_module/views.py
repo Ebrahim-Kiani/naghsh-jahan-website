@@ -1,4 +1,3 @@
-from django.db.models import Count
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
@@ -50,12 +49,15 @@ class AddProductFavorite(CreateView):
         request.session["product_favorites"] = product_id
         return redirect(product.get_absolute_url())
 
+#building dynamic slide show in home page
+
+
+
+
 # sending categories to products page
 def product_categories_component(request):
     main_categories = ProductCategory.objects.filter(parent_category__isnull=True)
     sub_categories = ProductCategory.objects.filter(parent_category__isnull=False)
-
-
 
 
     context = {
@@ -73,3 +75,4 @@ def product_brands_component(request: HttpRequest):
         'product_brands': product_brands
     }
     return render(request, 'product_module/components/product_brands_component.html', context)
+
