@@ -1,0 +1,34 @@
+{% load static %}
+{% load custom_filters %}
+
+   <!-- Start Categories  -->
+    <div class="categories-shop">
+        <div class="container">
+            <div class="row">
+
+                {% for category_pair in categories_pairs %}
+                    {% if category_pair|length == 2 %}
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="shop-cat-box">
+                                <img class="img-fluid" src="{{ category_pair.0.image.url }}" alt="" />
+                                <a class="btn hvr-hover" href="#">{{ category_pair.0.title }}</a>
+                            </div>
+
+                            <div class="shop-cat-box">
+                                <img class="img-fluid" src="{{ category_pair.1.image.url }}" alt="" />
+                                <a class="btn hvr-hover" href="#">{{ category_pair.1.title }}</a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="shop-cat-box">
+                                <img class="img-fluid" src="{{ category_pair.image.url }}" alt="" />
+                                <a class="btn hvr-hover" href="#">{{ category_pair.title }}</a>
+                            </div>
+
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <!-- End Categories -->
