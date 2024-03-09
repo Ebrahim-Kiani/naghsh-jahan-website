@@ -22,6 +22,8 @@ class ProductCategory(models.Model):
     is_delete = models.BooleanField(verbose_name='حذف شده / حذف نشده')
     parent_category = models.ForeignKey('self', blank=True, null=True, related_name='subcategories',
                                      on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='images/categories',
+                              default='images/categories/category_default.png', verbose_name='تصویر دسته بندی')
 
     def clean(self):
         existing_categories = ProductCategory.objects.exclude(id=self.id)

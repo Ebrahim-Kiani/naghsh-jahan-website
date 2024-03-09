@@ -1,4 +1,4 @@
-from django.views.generic import ListView
+from category_module.models import ProductCategory
 from .models import slide
 from site_module.models import SiteSetting, FooterLinkBox
 from django.shortcuts import render
@@ -7,7 +7,7 @@ from django.shortcuts import render
 
 
 
-# site_header_partial
+
 
 
 
@@ -34,4 +34,27 @@ def dynamic_slides(request):
         'slides': all_slides,
         'slides_class': slides_class
     }
-    return render(request, 'home_module/index_page.html', context)
+    return render(request, 'home_module/components/index_page.html', context)
+
+# categories list for home page
+def categories_list(request):
+    categories_list = ProductCategory.objects.filter(parent_category__isnull=True)
+
+    categories_pairs = []
+    for item in range(0,len(categories_list),2):
+
+        try:
+
+            tuple = (categories_list[item], categories_list[item+1])
+            categories_pairs.append(tuple )
+        except IndexError:
+
+            tuple = (categories_list[item])
+            categories_pairs.append(tuple)
+
+    context = {
+        'categories_pairs' : categories_pairs,
+        'categories_list':categories_list
+    }
+
+    return render(request, 'home_module/components/index_category.html', context)
