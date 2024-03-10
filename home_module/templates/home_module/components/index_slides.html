@@ -1,0 +1,29 @@
+{% load static %}
+{% load custom_filters %}
+
+    <!-- Start Slider -->
+    <div id="slides-shop" class="cover-slides">
+        <ul class="slides-container">
+            {% for slide in slides %}
+                <li class="{{ slides_class|get_item:forloop.counter0 }}">
+                    <img src="{{ slide.image.url }}" alt="">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h1 class="m-b-20"><strong>{{ slide.title }}</strong></h1>
+                                <p class="m-b-40">{{ slide.content }}</p>
+                                <p><a class="btn hvr-hover" href='{{ slide.link }}'> {{ slide.link_title }} </a></p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+            {% endfor %}
+
+        </ul>
+        <div class="slides-navigation">
+            <a href="#" class="next"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+            <a href="#" class="prev"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+        </div>
+    </div>
+    <!-- End Slider -->

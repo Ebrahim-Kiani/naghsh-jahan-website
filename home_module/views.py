@@ -34,7 +34,7 @@ def dynamic_slides(request):
         'slides': all_slides,
         'slides_class': slides_class
     }
-    return render(request, 'home_module/components/index_page.html', context)
+    return render(request, 'home_module/components/index_slides.html', context)
 
 # categories list for home page
 def categories_list(request):
@@ -58,3 +58,9 @@ def categories_list(request):
     }
 
     return render(request, 'home_module/components/index_category.html', context)
+
+def products_list(request):
+    return render(request, template_name='home_module/components/index_products.html', context=None)
+
+def home_index(request):
+    return render(request, template_name='home_module/home_page.html', context=None)
