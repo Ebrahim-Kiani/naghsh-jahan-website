@@ -14,7 +14,7 @@ class Product(models.Model):
     category = models.ManyToManyField(ProductCategory, related_name='product_categories', verbose_name='دسته بندی ها')
     image = models.ImageField(upload_to='images/products', null=True, blank=True, verbose_name='تصویر محصول')
     price = models.IntegerField(verbose_name='قیمت')
-    Discount = models.IntegerField(verbose_name='درصد تخفیف %', null=True)
+    Discount = models.IntegerField(verbose_name='درصد تخفیف %', null=True, blank=True)
     short_description = models.CharField(max_length=360, db_index=True, null=True, verbose_name='توضیحات کوتاه')
     description = models.TextField(verbose_name='توضیحات اصلی', db_index=True)
     slug = models.SlugField(default="", db_index=True, max_length=200, unique=True
@@ -23,6 +23,7 @@ class Product(models.Model):
 
     is_active = models.BooleanField(default=False, verbose_name='فعال / غیرفعال')
     is_delete = models.BooleanField(verbose_name='حذف شده / نشده')
+    is_featured = models.BooleanField(default=False, verbose_name='محصول ویژه است؟')
 
     def calculate_discount(self):
         discount_price = self.price - (self.price * (self.Discount/100))

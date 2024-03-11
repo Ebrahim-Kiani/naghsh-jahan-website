@@ -1,4 +1,5 @@
 from category_module.models import ProductCategory
+from product_module.models import Product
 from .models import slide
 from site_module.models import SiteSetting, FooterLinkBox
 from django.shortcuts import render
@@ -60,7 +61,17 @@ def categories_list(request):
     return render(request, 'home_module/components/index_category.html', context)
 
 def products_list(request):
-    return render(request, template_name='home_module/components/index_products.html', context=None)
+    featured_products = Product.objects.filter(is_featured=True)[:10]
+    discount_products = Product.objects.filter(Discount__isnull=False).order_by('Discount')[:10]
+
+    context = {
+        'featured_products' : featured_products,
+        'discount_products' : discount_products
+    }
+    return render(request, 'home_module/components/index_products.html', context)
+
 
 def home_index(request):
     return render(request, template_name='home_module/home_page.html', context=None)
+
+
