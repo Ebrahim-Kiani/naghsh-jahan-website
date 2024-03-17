@@ -7,7 +7,10 @@
 
                                 <div class="list-group-collapse sub-men">
                                 {% for main_category in main_categories %}
-                                    <p class="list-group-item list-group-item-action" href=""  data-toggle="collapse" aria-expanded="false" aria-controls="sub-men1">{{ main_category.title }}
+                                    <p class="list-group-item list-group-item-action"  data-toggle="collapse" aria-expanded="false" aria-controls="sub-men1">
+                                        <a href="{% url 'product-category-list' categories=main_category.slug %}" class="list-group-item list-group-item-action active">
+                                            {{ main_category.title }}
+                                        </a>
 								</p>
                                     <div class="collapse show" id="sub-men1" data-parent="#list-group-men">
 

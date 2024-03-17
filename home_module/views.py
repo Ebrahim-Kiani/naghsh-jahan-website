@@ -1,5 +1,3 @@
-from msilib.schema import ListView
-
 from category_module.models import ProductCategory
 from product_module.models import Product
 from .models import slide

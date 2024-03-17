@@ -10,20 +10,22 @@
                     {% if category_pair|length == 2 %}
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                             <div class="shop-cat-box">
+
                                 <img class="img-fluid" src="{{ category_pair.0.image.url }}" alt="" />
-                                <a class="btn hvr-hover" href="#">{{ category_pair.0.title }}</a>
+
+                                <a class="btn hvr-hover" href="{% url 'product-category-list' categories=category_pair.0.slug %}">{{ category_pair.0.title }}</a>
                             </div>
 
                             <div class="shop-cat-box">
                                 <img class="img-fluid" src="{{ category_pair.1.image.url }}" alt="" />
-                                <a class="btn hvr-hover" href="#">{{ category_pair.1.title }}</a>
+                                <a class="btn hvr-hover" href="{% url 'product-category-list' categories=category_pair.1.slug %}">{{ category_pair.1.title }}</a>
                             </div>
                         </div>
                     {% else %}
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                             <div class="shop-cat-box">
                                 <img class="img-fluid" src="{{ category_pair.image.url }}" alt="" />
-                                <a class="btn hvr-hover" href="#">{{ category_pair.title }}</a>
+                                <a class="btn hvr-hover" href="{% url 'product-category-list' categories=category_pair.slug %}">{{ category_pair.title }}</a>
                             </div>
                         </div>
                     {% endif %}

@@ -89,12 +89,12 @@
                                     
                                         {% for main_category in main_categories %} 
                                             <div class="col-menu col-md-3">
-                                                <h6 class="title">{{ main_category.title}} </h6>
+                                                <h6 class="title"><a href="{% url 'product-category-list' categories=main_category.slug %}"> {{ main_category.title}}  </a></h6>
                                                 <div class="content">
                                                     <ul class="menu-col">
                                                        {% for sub_category in sub_categories %}
                                                             {% if sub_category.parent_category == main_category  %}
-                                                                <li><a href="shop.html"> {{ sub_category.title}} </a></li>
+                                                                <li><a href="{% url 'product-category-list' categories=sub_category.slug %}"> {{ sub_category.title}} </a></li>
                                                             {% endif %}
                                                        {% endfor %}
                                                     

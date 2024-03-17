@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
@@ -22,7 +23,11 @@ class ProductListView(ListView):
         brand_name = self.kwargs.get('brand')
 
         if category_name is not None:
-            query = query.filter(category__slug__iexact=category_name)
+            try:
+                query = query.filter(Q(category__slug__iexact=category_name) | Q(category__parent_category__slug__iexact=category_name) )
+            except:
+                query = query.filter(category__slug__iexact=category_name)
+
         if brand_name is not None:
             query = query.filter(category__slug__iexact=brand_name)
 
@@ -49,7 +54,6 @@ class AddProductFavorite(CreateView):
         request.session["product_favorites"] = product_id
         return redirect(product.get_absolute_url())
 
-#building dynamic slide show in home page
 
 
 
@@ -68,7 +72,7 @@ def product_categories_component(request):
 
     return render(request, 'product_module/components/product_categories_component.html', context)
 
-
+# sending brands to products page
 def product_brands_component(request: HttpRequest):
     product_brands = ProductBrand.objects.filter(is_active=True)
     context = {
