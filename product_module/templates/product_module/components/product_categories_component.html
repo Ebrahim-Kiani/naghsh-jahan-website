@@ -15,7 +15,7 @@
                                             {% for sub_category in sub_categories  %}
 
                                                 {% if sub_category.parent_category == main_category %}
-                                                    <a href="{% url 'product-category-list' categories=sub_category.url_title %}" class="list-group-item list-group-item-action active">{{ sub_category.title }}
+                                                    <a href="{% url 'product-category-list' categories=sub_category.slug %}" class="list-group-item list-group-item-action active">{{ sub_category.title }}
                                                         <small class="text-muted">{{ sub_category.product_categories.all.count }}</small>
                                                     </a>
                                                 {% endif %}

@@ -10,15 +10,11 @@ class ProductAdmin(admin.ModelAdmin):
     list_editable = ['price', 'is_active', 'Discount']
 
 
-class ProductCategoryAdmin(admin.ModelAdmin):
-    readonly_fields = ['url_title']
 
 
-class ProductBrandAdmin(admin.ModelAdmin):
-    readonly_fields = ['url_title']
+
 
 
 admin.site.register(models.Product, ProductAdmin)
-admin.site.register(models.ProductCategory, ProductCategoryAdmin)
 admin.site.register(models.ProductTag)
-admin.site.register(models.ProductBrand, ProductBrandAdmin)
+

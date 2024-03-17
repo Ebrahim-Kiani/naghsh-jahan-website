@@ -22,9 +22,9 @@ class ProductListView(ListView):
         brand_name = self.kwargs.get('brand')
 
         if category_name is not None:
-            query = query.filter(category__url_title__iexact=category_name)
+            query = query.filter(category__slug__iexact=category_name)
         if brand_name is not None:
-            query = query.filter(category__url_title__iexact=brand_name)
+            query = query.filter(category__slug__iexact=brand_name)
 
         return query
 

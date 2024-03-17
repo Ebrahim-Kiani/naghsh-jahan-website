@@ -5,9 +5,11 @@ from slugify import slugify
 # Create your models here.
 class ProductBrand(models.Model):
     title = models.CharField(max_length=100, db_index=True, verbose_name='عنوان')
-    url_title = models.CharField(max_length=100, db_index=True, verbose_name='عنوان در URL')
+    slug= models.CharField(max_length=100, db_index=True, verbose_name='عنوان در URL')
     is_active = models.BooleanField(verbose_name= 'فعال/غیرفعال')
-
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.slug)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'برند'
@@ -17,7 +19,7 @@ class ProductBrand(models.Model):
 
 class ProductCategory(models.Model):
     title = models.CharField(max_length=100, db_index=True, verbose_name='عنوان')
-    url_title = models.CharField(max_length=100, db_index=True, verbose_name='عنوان در URL', null=False, unique=True)
+    slug = models.CharField(max_length=100, db_index=True, verbose_name='عنوان در URL', null=False, unique=True)
     is_active = models.BooleanField(verbose_name='فعال / غیر فعال')
     is_delete = models.BooleanField(verbose_name='حذف شده / حذف نشده')
     parent_category = models.ForeignKey('self', blank=True, null=True, related_name='subcategories',
@@ -31,10 +33,10 @@ class ProductCategory(models.Model):
             raise ValidationError('A category with this title already exists.')
 
     def __str__(self):
-       return f'({self.title} )'
+        return self.title
 
     def save(self, *args, **kwargs):
-        self.url_title = slugify(self.title)
+        self.slug = slugify(self.slug)
         super().save(*args, **kwargs)
 
     class Meta:

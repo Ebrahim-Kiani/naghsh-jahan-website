@@ -1,8 +1,6 @@
 from django.db import models
 from django.urls import reverse
-from django.core.validators import MaxValueValidator, MinValueValidator
-from django.utils.text import slugify
-
+from slugify import slugify
 from category_module.models import ProductCategory,ProductBrand
 
 
