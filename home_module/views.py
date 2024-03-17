@@ -1,29 +1,10 @@
+from msilib.schema import ListView
+
 from category_module.models import ProductCategory
 from product_module.models import Product
 from .models import slide
-from site_module.models import SiteSetting, FooterLinkBox
 from django.shortcuts import render
 # Create your views here.
-
-
-
-
-
-
-
-
-def site_footer_refrences(request):
-    setting: SiteSetting = SiteSetting.objects.filter(is_main_setting=True).first()
-    footer_link_boxes = FooterLinkBox.objects.all()
-    for item in footer_link_boxes:
-        item.footerlink_set
-    context = {
-        'site_setting': setting,
-        'footer_link_boxes': footer_link_boxes
-    }
-    return render(request, 'shared/site_footer_references.html', context)
-
-
 
 # making dynamic slides in home page
 def dynamic_slides(request):
@@ -60,6 +41,7 @@ def categories_list(request):
 
     return render(request, 'home_module/components/index_category.html', context)
 
+# products of main page of website
 def products_list(request):
     featured_products = Product.objects.filter(is_featured=True)[:10]
     discount_products = Product.objects.filter(Discount__isnull=False).order_by('Discount')[:10]
@@ -73,5 +55,11 @@ def products_list(request):
 
 def home_index(request):
     return render(request, template_name='home_module/home_page.html', context=None)
+
+
+
+
+
+
 
 
