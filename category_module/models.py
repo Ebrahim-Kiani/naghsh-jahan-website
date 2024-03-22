@@ -36,7 +36,7 @@ class ProductCategory(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.slug)
+        self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
     class Meta:
