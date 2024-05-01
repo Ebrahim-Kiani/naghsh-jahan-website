@@ -10,9 +10,9 @@ from category_module.models import ProductCategory,ProductBrand
 class Product(models.Model):
     title = models.CharField(max_length=300, verbose_name='نام محصول')
     category = models.ManyToManyField(ProductCategory, related_name='product_categories', verbose_name='دسته بندی ها')
-    image = models.ImageField(upload_to='images/products', null=False, blank=False, verbose_name='تصویر محصول')
+    image = models.ImageField(upload_to='media/images/products', null=False, blank=False, verbose_name='تصویر محصول')
     price = models.IntegerField(verbose_name='قیمت')
-    Discount = models.IntegerField(verbose_name='درصد تخفیف %', null=True, blank=True)
+    Discount = models.IntegerField(verbose_name='درصد تخفیف %', null=False, blank=True, default=0)
     short_description = models.CharField(max_length=360, db_index=True, null=True, verbose_name='توضیحات کوتاه')
     description = models.TextField(verbose_name='توضیحات اصلی', db_index=True)
     slug = models.SlugField(default="", db_index=True, max_length=200, unique=True

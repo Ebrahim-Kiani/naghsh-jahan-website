@@ -1,0 +1,43 @@
+{% extends 'shared/_layout.html' %}
+
+{% block content %}
+<style>
+    fieldset {
+        font-size: 30px;
+        border: 2px solid;
+        padding-top: 50px;
+        margin: 10px;
+        text-align: right;
+    }
+    form{
+
+        padding-top:10px;
+        text-align: right;
+    }
+</style>
+<div class="col-lg-8 col-sm-12" >
+    <div class="contact-form-right">
+
+
+        {% csrf_token %}
+        <form id="main-contact-form" action="{% url 'contact_us' %}" method="post" style="text-align:right">
+            <fieldset>
+                <legend>فرم ثبت نام</legend>
+                {% csrf_token %}
+                <div class="col-md-12">
+                    {{ register_form.phone.label_tag }}
+                    {{ register_form.phone }}
+                    {{ register_form.phone.errors }}
+                </div>
+
+                <div class="submit-button text-center">
+                    <button type="submit" class="btn hvr-hover">ارسال</button>
+                    <div id="msgSubmit" class="h3 text-center hidden"></div>
+                    <div class="clearfix"></div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

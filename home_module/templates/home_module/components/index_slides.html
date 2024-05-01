@@ -1,12 +1,15 @@
 {% load static %}
 {% load custom_filters %}
-
+{% load thumbnail %}
     <!-- Start Slider -->
     <div id="slides-shop" class="cover-slides">
         <ul class="slides-container">
             {% for slide in slides %}
                 <li class="{{ slides_class|get_item:forloop.counter0 }}">
-                    <img src="{{ slide.image.url }}" alt="">
+                    {% thumbnail slide.image '1285x730' quality=100 crop='center' as im %}
+                        <img src="{{ im.url }}" alt="">
+                    {% endthumbnail %}
+
                     <div class="container">
                         <div class="row">
                             <div class="col-md-12">

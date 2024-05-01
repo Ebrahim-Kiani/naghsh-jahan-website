@@ -1,7 +1,7 @@
 {% extends 'shared/_layout.html' %}
 {% load static %}
 {% load render_partial %}
-
+{% load thumbnail %}
 {% block content %}
   <style>
     .price-range {
@@ -82,7 +82,9 @@
                                                     <div class="type-lb">
                                                         <p class="sale">Sale</p>
                                                     </div>
-                                                    <img src="{{ product.image.url }}" class="img-fluid" alt="Image">
+                                                    {% thumbnail product.image '550x550' quality=100 crop='center' as im %}
+                                                        <img src="{{ im.url }}" class="img-fluid" alt="Image">
+                                                    {% endthumbnail %}
                                                     <div class="mask-icon">
                                                         <ul>
                                                             <li><a href="{% url 'product-detail' slug=product.slug   %}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
@@ -116,7 +118,9 @@
                                                         <div class="type-lb">
                                                             <p class="new">New</p>
                                                         </div>
-                                                        <img src="{{ product.image.url }}" class="img-fluid" alt="Image">
+                                                        {% thumbnail product.image '550x550' quality=100 crop='center' as im %}
+                                                            <img src="{{ im.url }}" class="img-fluid" alt="Image">
+                                                        {% endthumbnail %}
                                                         <div class="mask-icon">
                                                             <ul>
                                                                 <li><a href="{% url 'product-detail' slug=product.slug  %}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>

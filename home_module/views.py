@@ -42,7 +42,7 @@ def categories_list(request):
 # products of main page of website
 def products_list(request):
     featured_products = Product.objects.filter(is_featured=True)[:10]
-    discount_products = Product.objects.filter(Discount__isnull=False).order_by('Discount')[:10]
+    discount_products = Product.objects.filter(Discount__gt=0).order_by('Discount')[:10]
 
     context = {
         'featured_products' : featured_products,

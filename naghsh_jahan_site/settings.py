@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     #internal modules
     'home_module',
     'account_module',
@@ -49,6 +50,8 @@ INSTALLED_APPS = [
     'category_module',
     #external modules
     'django_render_partial',
+    'django_otp.plugins.otp_static',
+    'sorl.thumbnail',
    # 'django.contrib.staticfiles',
 
 ]
@@ -135,7 +138,10 @@ STATIC_URL = '/static/'
 if not DEBUG:
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static/'), ]
-MEDIA_URL = '/medias/'
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+MEDIA_URL = '/media/'
+MEDIA_ROOT = MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+THUMBNAIL_DEBUG = True
 
 
 
