@@ -11,7 +11,7 @@ class SiteSetting(models.Model):
     phone = models.CharField(max_length=200, null=True, blank=True, verbose_name='تلفن')
     copy_right = models.TextField(verbose_name='متن کپی رایت سایت')
     about_us_text = models.TextField(verbose_name='متن درباره ما سایت')
-    site_logo = models.ImageField(upload_to='media/images/site-setting/', verbose_name='لوگو سایت')
+    site_logo = models.ImageField(upload_to='images/site-setting/', verbose_name='لوگو سایت')
     is_main_setting = models.BooleanField(max_length=200, verbose_name='تنظیمات اصلی')
     whatsapp_link = models.CharField(max_length=200, verbose_name='لینک واتساپ')
     instagram_link = models.CharField(max_length=200, verbose_name='لینک اینستاگرام')

@@ -1,0 +1,28 @@
+{% extends 'shared/_layout.html' %}
+
+{% block content %}
+
+   <!DOCTYPE html>
+<html>
+<head>
+  <title>User Registration and Login</title>
+</head>
+<body>
+  <h2>User login</h2>
+  <form action="{% url 'login' %}" method="post">
+    {% csrf_token %}
+            {{ login_form.phone.label }}
+            {{ login_form.phone }}
+            {{ login_form.phone.error }}
+            {{ login_form.password.label }}
+            {{ login_form.password }}
+            {{ login_form.password.error }}
+
+    <button type="submit"> ورود </button>
+  </form>
+
+</body>
+</html>
+
+
+{% endblock %}
