@@ -22,6 +22,7 @@ class RegisterView(View):
         if register_form.is_valid():
             user_phone = register_form.cleaned_data['phone']
             user_password = register_form.cleaned_data['password']
+            print(user_phone, user_password)
             user : bool = User.objects.filter(phone__iexact=user_phone).exists()
             if user == True:
                 return register_form.add_error('phone', 'تلفن وارد شده وجود دارد')
@@ -37,26 +38,28 @@ class LoginView(View):
     def get(self, request):
         login_form = LoginForm()
         context = {
-            login_form:'login_form'
+            'login_form':login_form
         }
         return render(request, 'account_module/login.html', context)
-    def post(self, request:HttpRequest):
+
+    def post(self, request: HttpRequest):
         login_form = LoginForm(request.POST)
-        if login_form.is_valid():
-            user_phone = login_form.cleaned_data['phone']
-            user_password = login_form.cleaned_data['password']
-            user = User.objects.filter(phone__iexact=user_phone).first()
-            if user is not None:
-                if user.check_password(user_password):
-                    print('login successful')
-                    if user.is_active:
-                         login(request, user)
-                         return redirect(reverse('home-page'))
-                print('not login')
-        print(login_form.cleaned_data)
-        context = {
-            login_form:'login_form'
-        }
+        context = {'login_form': login_form}
+
+        user_phone = request.POST.get('phone')
+        user_password = request.POST.get('password')
+        user = User.objects.filter(phone__iexact=user_phone).first()
+        if user is not None:
+            if user.check_password(user_password):
+                print('login successful')
+                if user.is_active:
+                    login(request, user)
+                    return redirect(reverse('home-page'))
+            else:
+                login_form.add_error(None, 'Invalid password')
+        else:
+            login_form.add_error('phone', 'User with this phone does not exist')
+
         return render(request, 'account_module/login.html', context)
 
 
