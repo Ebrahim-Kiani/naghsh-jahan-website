@@ -42,10 +42,15 @@ def site_header_references_categories(request):
     for sub_category in sub_categories:
         sub_category.title = mark_safe((sub_category.title.encode('utf-8')).decode('utf-8', errors='replace'))
 
+    if request.user.is_authenticated:
+        user_authenticated = True
+    else:
+        user_authenticated = False
 
     context = {
         'main_categories': main_categories,
-        'sub_categories': sub_categories
+        'sub_categories': sub_categories,
+        'user_authenticated': user_authenticated
     }
 
     return render(request, 'shared/site_header_references.html', context)

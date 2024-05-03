@@ -48,9 +48,14 @@
                     </div>
                     <div class="our-link">
                         <ul>
-                            <li><a href="{% url 'register' %}">My Account</a></li>
-                            <li><a href="#">Our location</a></li>
-                            <li><a href="#">Contact Us</a></li>
+                            {% if user_authenticated == True %}
+                                <li><a href="{% url 'register' %}">&#x1F9B2;حساب کاربری من</a></li>
+                            {% else %}
+                                <li><a href="{% url 'register' %}">ورود/ثبت نام</a></li>  
+                            {% endif %}
+                            
+                            <li><a href="#">آدرس ما</a></li>
+                            <li><a href="{% url 'contact_us' %}">ارتباط با ما</a></li>
                         </ul>
                     </div>
                 </div>
@@ -125,7 +130,7 @@
                             </ul>
                         </li>
                         <li class="nav-item"><a class="nav-link" href="service.html">Our Service</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'contact_us' %}">درباره ما</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">درباره ما</a></li>
                     </ul>
                 </div>
                 <!-- /.navbar-collapse -->

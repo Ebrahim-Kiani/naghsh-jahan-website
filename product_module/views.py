@@ -3,7 +3,7 @@ from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView
-from .models import Product
+from .models import Product, ProductImage
 from category_module.models import ProductCategory,ProductBrand
 
 
@@ -44,6 +44,8 @@ class ProductDetailView(DetailView):
         request = self.request
         favorite_product_id = request.session.get("product_favorites")
         context['is_favorite'] = favorite_product_id == str(loaded_product.id)
+        product_images = ProductImage.objects.filter(product=loaded_product)
+        context['product_images'] = product_images
         return context
 
 
