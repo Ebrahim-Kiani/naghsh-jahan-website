@@ -13,3 +13,6 @@ function showLargeImage(imagesrc, imageid){
     imgElement.src = imagesrc;
 
 }
+function addProducToOrder(product_id){
+    console.log(product_id)
+}

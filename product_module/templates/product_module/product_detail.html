@@ -1,6 +1,6 @@
 {% extends 'shared/_layout.html' %}
 {% load static %}
-
+{% load thumbnail %}
 
 {% block content %}
     <script src="{% static 'js/product.js' %}"></script>
@@ -15,6 +15,7 @@
                                 <div class="carousel-item active" id="product-main-image-slide">
                                     <img  class="d-block w-100" src="{{ product.image.url }}" alt="First slide">
                                 </div>
+
                             {% for product_image in product_images %}
                                 <div class="carousel-item" id="product-image-slide{{ product_image.id }}">
                                     <img  class="d-block w-100" src="{{ product_image.image.url }}" alt="slides">
@@ -34,25 +35,30 @@
 						<span class="sr-only">Next</span>
 					</a>
                         <ol class="carousel-indicators">
+
                             <li data-target="#carousel-example-1" data-slide-to="0" class="active" id="product-main-image">
                                     <a onclick="showLargeImage('{{ product.image.url }}','product-main-image')">
                                         <img class="d-block w-100 img-fluid" src="{{ product.image.url }}" alt="" />
                                     </a>
                             </li>
+
                             {% for product_image in product_images %}
+
                                 <li data-target="#carousel-example-1" data-slide-to="0" class id="product-image{{ product_image.id }}">
                                     <a onclick="showLargeImage('{{ product_image.image.url }}','product-image{{ product_image.id }}')">
                                         <img class="d-block w-100 img-fluid" src="{{ product_image.image.url }}" alt="" />
                                     </a>
                                 </li>
+
                             {% endfor %}
+
 
                         </ol>
                     </div>
                 </div>
                 <div class="col-xl-7 col-lg-7 col-md-6">
                     <div class="single-product-details">
-                        <h2>{{ product.title }}</h2>
+                        <h2 style="text-align: right; dir:rtl">{{ product.title }}</h2>
                     {% if product.Discount != 0 %}
                         <h5>
                         <del>$ {{ product.price }}</del>
@@ -64,8 +70,8 @@
                         </h5>
                         <p class="available-stock"><span>{{ product.inventory }}:موجودی انبار </span>
                             <p>
-                                <h4>{{ product.short_description }}:</h4>
-                                <p>{{ product.description }} </p>
+                                <h4 style="text-align: right; dir:rtl">{{ product.short_description }}:</h4>
+                                <p style="text-align: right; dir:rtl">{{ product.description }} </p>
                                 <ul>
 
                                     <li>

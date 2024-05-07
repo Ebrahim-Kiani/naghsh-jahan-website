@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'contact_module',
     'site_module',
     'category_module',
+    'order_module',
     #external modules
     'django_render_partial',
     'django_otp.plugins.otp_static',
