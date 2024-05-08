@@ -13,6 +13,9 @@ function showLargeImage(imagesrc, imageid){
     imgElement.src = imagesrc;
 
 }
-function addProducToOrder(product_id){
-    console.log(product_id)
+function addProducToOrder(product_Id){
+    const product_count = $('#product-count').val();
+    $.get('/order/add-to-order?product_id=' + product_Id+ '&count=' + product_count).then(response =>{
+        console.log(response);
+        });
 }
