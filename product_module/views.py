@@ -45,6 +45,8 @@ class ProductDetailView(DetailView):
         favorite_product_id = request.session.get("product_favorites")
         context['is_favorite'] = favorite_product_id == str(loaded_product.id)
         product_images = ProductImage.objects.filter(product=loaded_product)
+        relative_product = Product.objects.filter(category__in=loaded_product.categories.all()).exclude(product_id=loaded_product.id)
+        context['relative_product'] = relative_product
         context['product_images'] = product_images
         return context
 

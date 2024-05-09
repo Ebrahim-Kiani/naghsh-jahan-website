@@ -1,7 +1,7 @@
 {% extends 'shared/_layout.html' %}
 {% load static %}
 {% load thumbnail %}
-
+{% load custom_filters %}
 {% block content %}
     <script src="{% static 'js/product.js' %}"></script>
     <!-- Start Shop Detail  -->
@@ -34,9 +34,9 @@
 						<i class="fa fa-angle-right" aria-hidden="true"></i>
 						<span class="sr-only">Next</span>
 					</a>
-                        <ol class="carousel-indicators">
+                        <ol style="background-color: white" class="carousel-indicators">
 
-                            <li data-target="#carousel-example-1" data-slide-to="0" class="active" id="product-main-image">
+                            <li  data-target="#carousel-example-1" data-slide-to="0" class="active" id="product-main-image">
                                     <a onclick="showLargeImage('{{ product.image.url }}','product-main-image')">
                                         <img class="d-block w-100 img-fluid" src="{{ product.image.url }}" alt="" />
                                     </a>
@@ -61,11 +61,11 @@
                         <h2 style="text-align: right; dir:rtl">{{ product.title }}</h2>
                     {% if product.Discount != 0 %}
                         <h5>
-                        <del>$ {{ product.price }}</del>
+                        <del> {{ product.price | get_tooman }}</del>
 
-                            ${{ product.calculate_discount }}
+                            {{ product.calculate_discount | get_tooman }}
                     {% else %}
-                         <h5> $ {{ product.price }} </h5>
+                         <h5>  {{ product.price | get_tooman }} </h5>
                     {% endif %}
                         </h5>
                         <p class="available-stock"><span>{{ product.inventory }}:موجودی انبار </span>
@@ -109,8 +109,7 @@
             <div class="row my-5">
                 <div class="col-lg-12">
                     <div class="title-all text-center">
-                        <h1>Featured Products</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet lacus enim.</p>
+                        <h1>محصولات مرتبط</h1>
                     </div>
                     <div class="featured-products-box owl-carousel owl-theme">
                         <div class="item">

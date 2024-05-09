@@ -15,7 +15,20 @@ function showLargeImage(imagesrc, imageid){
 }
 function addProducToOrder(product_Id){
     const product_count = $('#product-count').val();
-    $.get('/order/add-to-order?product_id=' + product_Id+ '&count=' + product_count).then(response =>{
-        console.log(response);
-        });
-}
+    $.get('/order/add-to-order?product_id=' + product_Id+ '&count=' + product_count).then(res => {
+        Swal.fire({
+            title: res.title,
+            text: res.text,
+            icon: res.icon,
+            showCancelButton: res.show_cancel_button,
+            cancelButtonText: "لغو",
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: res.confirm_button_text,
+        }).then((result)=>{
+            if ( result.isConfirmed && res.status === 'not_authenticated'){
+                window.location.href = '/account/login';
+            };
+        })
+    });
+    }
