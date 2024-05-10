@@ -13,6 +13,7 @@ class Product(models.Model):
     image = models.ImageField(upload_to='media/images/products', null=False, blank=False, verbose_name='تصویر محصول')
     price = models.PositiveIntegerField(verbose_name='قیمت')
     Discount = models.PositiveSmallIntegerField(verbose_name='درصد تخفیف %', null=False, blank=True, default=0)
+    final_price = models.PositiveIntegerField(verbose_name='قیمت پس از اعمال تخفیف', null=True, blank=True)
     short_description = models.CharField(max_length=360, db_index=True, null=True, verbose_name='توضیحات کوتاه')
     description = models.TextField(verbose_name='توضیحات اصلی', db_index=True)
     slug = models.SlugField(default="", db_index=True, max_length=200, unique=True
@@ -35,6 +36,10 @@ class Product(models.Model):
         return reverse('product-detail', args=[self.slug])
 
     def save(self, *args, **kwargs):
+        if self.Discount ==0:
+            self.final_price= self.price
+        else:
+            self.final_price = self.calculate_discount()
         self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 

@@ -22,6 +22,12 @@ class OrderDetail(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='محصول')
     final_price = models.IntegerField(null=True, blank=True,verbose_name='قیمت نهایی')
     count = models.SmallIntegerField(null=True, blank=True,verbose_name='تعداد')
+
+    def get_total_price(self):
+        return self.count * self.product.final_price
+
+    def custom_delete(self):
+        self.delete()
     def __str__(self):
         return str(self.order)
     class Meta:

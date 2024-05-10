@@ -1,0 +1,98 @@
+{% extends 'shared/_layout.html' %}
+
+{% block content %}
+  <!-- Start My Account  -->
+    <div class="my-account-box-main">
+        <div class="container">
+            <div class="my-account-page">
+                <div class="row">
+                    <div class="col-lg-4 col-md-12">
+                        <div class="account-box">
+                            <div class="service-box">
+                                <div class="service-icon">
+                                    <a href="#"> <i class="fa fa-gift"></i> </a>
+                                </div>
+                                <div class="service-desc">
+                                    <h4>سفارشات</h4>
+                                    <p>لیست سفارشات و سبد خرید </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="account-box">
+                            <div class="service-box">
+                                <div class="service-icon">
+                                    <a href="#"><i class="fa fa-user"></i> </a>
+                                </div>
+                                <div class="service-desc">
+                                    <a href="#">
+                                    <h4>تنظیمات حساب کاربری</h4>
+                                    </a>
+                                    <p>ویرایش رمز عبور، نام، تلفن</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="account-box">
+                            <div class="service-box">
+                                <div class="service-icon">
+                                    <a href="#"> <i class="fa fa-credit-card"></i> </a>
+                                </div>
+                                <div class="service-desc">
+                                    <h4>پرداخت ها</h4>
+                                    <p>بازدید از لیست پرداخت ها</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="account-box">
+                            <div class="service-box">
+                                <div class="service-icon">
+                                    <a href="#"><i class="fa fa-heart"></i> </a>
+                                </div>
+                                <div class="service-desc">
+                                    <h4>لیست علاقه مندی ها</h4>
+                                    <p>بازدید و ویرایش لیست علاقه مندی ها</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="account-box">
+                            <div class="service-box">
+                                <div class="service-icon">
+                                    <a href="{% url 'cart_view' %}"><i class="fa fa-shopping-cart"></i> </a>
+                                </div>
+                                <div class="service-desc">
+                                    <a href="{% url 'cart_view' %}">
+                                        <h4>سبد خرید</h4>
+                                    </a>
+                                        <p>بازدید و ویرایش سبد خرید</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="account-box">
+                            <div class="service-box">
+                                <div class="service-icon">
+                                    <a href="#"><i class="fa fa-chart-bar"></i> </a>
+                                </div>
+                                <div class="service-desc">
+                                    <h4>فاکتور ها</h4>
+                                    <p>بازدید و دانلود فاکتورها</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- End My Account -->
+
+{% endblock %}
