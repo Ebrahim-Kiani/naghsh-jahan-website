@@ -5,7 +5,7 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView
 from .models import Product, ProductImage
 from category_module.models import ProductCategory,ProductBrand
-
+from django.db import connection
 
 
 # Create your views here.
@@ -45,8 +45,25 @@ class ProductDetailView(DetailView):
         favorite_product_id = request.session.get("product_favorites")
         context['is_favorite'] = favorite_product_id == str(loaded_product.id)
         product_images = ProductImage.objects.filter(product=loaded_product)
-        relative_product = Product.objects.filter(category__in=loaded_product.categories.all()).exclude(product_id=loaded_product.id)
-        context['relative_product'] = relative_product
+        query = """
+                    SELECT DISTINCT *
+                    FROM product_module_product
+                    WHERE id IN (
+                        SELECT product_id
+                        FROM product_module_product_category
+                        WHERE productcategory_id IN (
+                            SELECT productcategory_id
+                            FROM product_module_product_category
+                            WHERE product_id = %s
+                        )
+                    )
+                    AND id != %s
+                    ORDER BY RANDOM()
+                    LIMIT 8
+                """
+        relative_products = list(Product.objects.raw(query, [loaded_product.id, loaded_product.id]))
+        context['relative_products'] = relative_products
+
         context['product_images'] = product_images
         return context
 
