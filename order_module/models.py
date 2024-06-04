@@ -25,9 +25,6 @@ class OrderDetail(models.Model):
 
     def get_total_price(self):
         return self.count * self.product.final_price
-
-    def custom_delete(self):
-        self.delete()
     def __str__(self):
         return str(self.order)
     class Meta:

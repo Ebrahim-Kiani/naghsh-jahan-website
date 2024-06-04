@@ -31,4 +31,11 @@ function addProducToOrder(product_Id){
             };
         })
     });
-    }
+    };
+function remove_detail(detail_Id){
+     $.get('/panel/remove-order-detail?detail_id=' + detail_Id).then(res => {
+         if (res.status === 'success'){
+                $('#order_detail_content').html(res.body);
+         }
+     });
+};

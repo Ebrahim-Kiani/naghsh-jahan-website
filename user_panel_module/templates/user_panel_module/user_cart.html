@@ -1,9 +1,17 @@
 {% extends 'shared/_layout.html' %}
 {% load product_custom_filters %}
-{% block content %}
+{% load static %}
 
+
+{% block content %}
+<script src="{% static 'js/product.js' %}"></script>
+<style>
+    .remove-pr a:hover i {
+        color: red;
+    }
+</style>
     <!-- Start Cart  -->
-    <div class="cart-box-main">
+    <div class="cart-box-main" id="order_detail_content">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -40,9 +48,11 @@
                                         <p>{{ detail.get_total_price | get_tooman}}</p>
                                     </td>
                                     <td class="remove-pr">
-                                        <a href="{{ detail.custom_delete }}">
+
+                                       <a onclick="remove_detail({{ detail.id }})">
 									<i class="fas fa-times"></i>
-								</a>
+                                        </a>
+
                                     </td>
                                 </tr>
                             {% endfor %}
