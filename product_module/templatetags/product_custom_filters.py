@@ -5,4 +5,4 @@ register = template.Library()
 
 @register.filter
 def get_tooman(price):
-    return   ' تومان ' +'{:,}'.format(price)
+    return   '{:,}'.format(price) + ' تومان '

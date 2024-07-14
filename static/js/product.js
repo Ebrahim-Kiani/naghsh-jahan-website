@@ -36,6 +36,22 @@ function remove_detail(detail_Id){
      $.get('/panel/remove-order-detail?detail_id=' + detail_Id).then(res => {
          if (res.status === 'success'){
                 $('#order_detail_content').html(res.body);
+
          }
-     });
+     })
 };
+
+  function handleQuantityChange(input, detail_Id) {
+    // Get the updated value
+    var updatedQuantity = input.value;
+
+    // Perform your desired action with the updated quantity
+    console.log('Updated quantity:', updatedQuantity);
+
+         $.get('/panel/change-order-detail?detail_id=' + detail_Id+'&detail_number='+updatedQuantity).then(res => {
+         if (res.status === 'success'){
+               $('#order_detail_content').html(res.body);
+
+         }
+     })
+  }

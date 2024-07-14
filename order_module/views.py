@@ -20,6 +20,7 @@ def add_product(request:HttpRequest):
             if user_order_detail is not None:
                 user_order_detail.count += product_count
                 user_order_detail.save()
+
                 return JsonResponse({'status': 'success',
                                      'title': 'اعلان',
                                      'text': 'محصول مورد نظر با موفقیت به سبد خرید شما اضافه شد',

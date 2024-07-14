@@ -4,7 +4,7 @@
 
 
 {% block content %}
-<script src="{% static 'js/product.js' %}"></script>
+<script src="{% static 'js/product.js' %}"> </script>
 <style>
     .remove-pr a:hover i {
         color: red;
@@ -23,7 +23,7 @@
                                     <th>نام محصول</th>
                                     <th>قیمت</th>
                                     <th style="text-align: center">تعداد</th>
-                                    <th>جمع قیمت</th>
+                                    <th>جمع قیمت(بااحتساب تخفیف)</th>
                                     <th>حذف</th>
                                 </tr>
                             </thead>
@@ -41,11 +41,13 @@
 								</a>
                                     </td>
                                     <td class="price-pr">
-                                        <p>{{detail.product.final_price | get_tooman }}</p>
+                                        <p>{{detail.product.price | get_tooman }}</p>
                                     </td>
-                                    <td class="quantity-box"><input type="number" size="4" value={{ detail.count }} min="0" step="1" class="c-input-text qty text"></td>
+                                    <td class="quantity-box"><input type="number" size="4" value={{ detail.count }}
+                                            min="0" step="1" class="c-input-text qty text" onchange="handleQuantityChange(this, {{ detail.id }})">
+                                    </td>
                                     <td class="total-pr">
-                                        <p>{{ detail.get_total_price | get_tooman}}</p>
+                                        <p>{{ detail.final_price | get_tooman}}</p>
                                     </td>
                                     <td class="remove-pr">
 
@@ -85,22 +87,22 @@
                 <div class="col-lg-4 col-sm-12">
                     <div class="order-box">
                         <h3>Order summary</h3>
-                        <div class="d-flex">
-                            <h4>Sub Total</h4>
-                            <div class="ml-auto font-weight-bold"> $ 130 </div>
-                        </div>
-                        <div class="d-flex">
-                            <h4>Discount</h4>
-                            <div class="ml-auto font-weight-bold"> $ 40 </div>
+                           <div class="d-flex">
+                               <h4>مبلغ کل</h4>
+                            <div class="ml-auto font-weight-bold"> {{ total_amount | get_tooman }} </div>
+                           </div>
+                        <div class="d-flex" >
+                            <h4> تخفیف محصول </h4>
+                            <div class="ml-auto font-weight-bold"> {{ discount_amount | get_tooman }} </div>
                         </div>
                         <hr class="my-1">
                         <div class="d-flex">
                             <h4>Coupon Discount</h4>
-                            <div class="ml-auto font-weight-bold"> $ 10 </div>
+                            <div class="ml-auto font-weight-bold"> 0 </div>
                         </div>
                         <div class="d-flex">
                             <h4>Tax</h4>
-                            <div class="ml-auto font-weight-bold"> $ 2 </div>
+                            <div class="ml-auto font-weight-bold"> Free </div>
                         </div>
                         <div class="d-flex">
                             <h4>Shipping Cost</h4>
@@ -108,8 +110,8 @@
                         </div>
                         <hr>
                         <div class="d-flex gr-total">
-                            <h5>Grand Total</h5>
-                            <div class="ml-auto h5"> $ 388 </div>
+                            <h5>مبلغ نهایی</h5>
+                            <div class="ml-auto h5"> {{ grand_total | get_tooman }} </div>
                         </div>
                         <hr> </div>
                 </div>
