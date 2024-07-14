@@ -91,3 +91,9 @@ def change_order_detail(request):
     }
     data = render_to_string('user_panel_module/user_cart.html', context)
     return JsonResponse({'status': 'success', 'body': data})
+
+
+# starting wish list functions
+
+def user_wishlist(request):
+    return render(request, 'user_panel_module/user_wishlist.html')
