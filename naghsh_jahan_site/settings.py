@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'category_module',
     'order_module',
     'user_panel_module',
+    'favorite_module',
     #external modules
     'django_render_partial',
     'django_otp.plugins.otp_static',

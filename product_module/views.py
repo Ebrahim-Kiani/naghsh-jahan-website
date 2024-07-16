@@ -68,17 +68,6 @@ class ProductDetailView(DetailView):
         return context
 
 
-class AddProductFavorite(CreateView):
-    def post(self, request):
-        product_id = request.POST["product_id"]
-        product = Product.objects.get(pk=product_id)
-        request.session["product_favorites"] = product_id
-        return redirect(product.get_absolute_url())
-
-
-
-
-
 # sending categories to products page
 def product_categories_component(request):
     main_categories = ProductCategory.objects.filter(parent_category__isnull=True)

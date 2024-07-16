@@ -1,8 +1,12 @@
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.template.loader import render_to_string
+from django.views import View
+from django.views.generic import DeleteView
 
+from favorite_module.models import Favorite
 from order_module.models import Order, OrderDetail
+from product_module.models import Product
 
 
 # Create your views here.
@@ -96,4 +100,27 @@ def change_order_detail(request):
 # starting wish list functions
 
 def user_wishlist(request):
-    return render(request, 'user_panel_module/user_wishlist.html')
+    # Retrieve all products from the user's favorites
+    products = Favorite.objects.filter(user=request.user).select_related('product')
+
+    context = {
+        'products': products
+    }
+    return render(request, 'user_panel_module/user_wishlist.html', context)
+
+
+def user_wishlist_remove(request):
+    favorite_id = int(request.GET.get('favorite_id'))
+    print(favorite_id)
+    favorite = Favorite.objects.get(id=favorite_id)
+    favorite.delete()
+
+    # Retrieve all products from the user's favorites
+    products = Favorite.objects.filter(user=request.user).select_related('product')
+
+    context = {
+        'products': products
+    }
+    data = render_to_string('user_panel_module/user_wishlist.html', context)
+    return JsonResponse({'status': 'success', 'body': data})
+
