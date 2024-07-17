@@ -1,8 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.template.loader import render_to_string
-from django.views import View
-from django.views.generic import DeleteView
+from django.views.generic import ListView, DetailView
 
 from favorite_module.models import Favorite
 from order_module.models import Order, OrderDetail
@@ -123,4 +122,29 @@ def user_wishlist_remove(request):
     }
     data = render_to_string('user_panel_module/user_wishlist.html', context)
     return JsonResponse({'status': 'success', 'body': data})
+
+# user shop list views
+
+class user_ShopListView(ListView):
+    model = Order
+    template_name = 'user_panel_module/user_shops.html'
+
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(user=self.request.user, is_paid=True)
+        return queryset
+class user_ShopDetailView(DetailView):
+    model = Order
+    template_name = 'user_panel_module/user_shop_detail.html'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        pk = self.kwargs.get('pk')
+        queryset = queryset.prefetch_related('orderdetail_set').filter(user=self.request.user, id=pk, is_paid=True)
+
+        return queryset
+
+
+# user edit profiles
 

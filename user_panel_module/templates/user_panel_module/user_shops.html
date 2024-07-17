@@ -22,39 +22,39 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>تصویر</th>
-                                    <th>نام محصول</th>
-                                    <th>قیمت</th>
-                                    <th>موجودی</th>
-                                    <th>اضافه به سبد خرید</th>
-                                    <th>حذف</th>
+                                    <th>شناسه سفارش</th>
+                                    <th>وضعیت پرداخت</th>
+                                    <th> قیمت نهایی</th>
+                                    <th>تاریخ پرداخت</th>
+                                    <th>جزئیات</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            {% for objects in products %}
+                            {% for order in object_list %}
                                 <tr>
                                     <td class="thumbnail-img">
                                         <a href="#">
-									<img class="img-fluid" src="{{ objects.product.image.url }}" alt="" />
+									{{ order.id }}
 								</a>
                                     </td>
                                     <td class="name-pr">
                                         <a href="#">
-                                            {{ objects.product.title}}
+                                            {% if order.is_paid  %}
+                                                <p>پرداخت شده است</p>
+                                            {% else %}
+                                                <p>پرداخت نشده است</p>
+                                            {% endif %}
+
 								</a>
                                     </td>
                                     <td class="price-pr">
-                                        <p>{{ objects.product.final_price | get_tooman }}</p>
+                                        <p>{{ order.grand_total | get_tooman }}</p>
                                     </td>
-                                    <td class="quantity-box">{{ objects.product.inventory }}</td>
+                                    <td class="quantity-box">{{ order.payment_date }}</td>
                                     <td class="add-pr">
-                                        <a class="btn hvr-hover" href="#">Add to Cart</a>
+                                        <a class="btn hvr-hover" href="{% url 'shop_detail' pk=order.id %}">جزئیات</a>
                                     </td>
-                                    <td class="remove-pr">
-                                        <a onclick="remove_favorite({{ objects.id }})">
-									        <i class="fas fa-times"></i>
-                                        </a>
-                                    </td>
+
                                </tr>
                             {% endfor %}
 

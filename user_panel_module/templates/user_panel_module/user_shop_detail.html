@@ -1,0 +1,62 @@
+{% extends 'shared/_layout.html' %}
+{% load product_custom_filters %}
+{% load static %}
+
+
+{% block content %}
+<script src="{% static 'js/product.js' %}"> </script>
+<style>
+    .remove-pr a:hover i {
+        color: red;
+    }
+</style>
+    <!-- Start Cart  -->
+    <div class="cart-box-main" id="order_detail_content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="table-main table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>شناسه</th>
+                                    <th>نام محصول</th>
+                                    <th>قیمت نهایی</th>
+                                    <th style="text-align: center">تعداد</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for detail in order.orderdetail_set.all  %}
+                                <tr>
+                                    <td class="thumbnail-img">
+                                        <p>{{ detail.id }}</p>
+                                    </td>
+                                    <td class="name-pr">
+                                        <a href="#">
+                                            {{ detail.product.title}}
+								</a>
+                                    </td>
+                                    <td class="price-pr">
+                                        <p>{{detail.final_price | get_tooman }}</p>
+                                    </td>
+                                    <td class="name-pr">
+                                        <a href="#">
+                                            {{ detail.count}}
+								        </a>
+                                    </td>
+
+
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- End Cart -->
+
+{% endblock %}

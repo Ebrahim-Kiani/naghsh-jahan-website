@@ -13,8 +13,8 @@
                                     <a href="#"> <i class="fa fa-gift"></i> </a>
                                 </div>
                                 <div class="service-desc">
-                                    <h4>سفارشات</h4>
-                                    <p>لیست سفارشات و سبد خرید </p>
+                                    <h4>کدهای تخفیف</h4>
+                                    <p>لیست هدایا و کد های تخفیف </p>
                                 </div>
                             </div>
                         </div>
@@ -38,11 +38,13 @@
                         <div class="account-box">
                             <div class="service-box">
                                 <div class="service-icon">
-                                    <a href="#"> <i class="fa fa-credit-card"></i> </a>
+                                    <a href="{% url 'shops_list' %}"> <i class="fa fa-credit-card"></i> </a>
                                 </div>
                                 <div class="service-desc">
+                                    <a href="{% url 'shops_list' %}">
                                     <h4>پرداخت ها</h4>
-                                    <p>بازدید از لیست پرداخت ها</p>
+                                    <p>بازدید از لیست خرید های قبلی</p>
+                                    </a>
                                 </div>
                             </div>
                         </div>
