@@ -1,6 +1,7 @@
 from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
 from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from django.db import models
+from django.utils import timezone
 
 
 class MyUserManager(BaseUserManager):
@@ -57,7 +58,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     full_name = models.CharField(max_length=20, null=False, blank=False, verbose_name='full name')
     is_active = models.BooleanField(default=False, verbose_name='is user active?')
     is_staff = models.BooleanField(default=False, verbose_name='is user staff?')
-    avatar = models.ImageField(upload_to='images/profile_images', verbose_name='profile avatar', null=True, blank=True)
+    address = models.TextField(null=True, blank=True, verbose_name='address')
     USERNAME_FIELD = 'phone'
     REQUIRED_FIELDS = ['full_name']
 
@@ -68,3 +69,17 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.phone
 
+class Factors(models.Model):
+    title = models.CharField(max_length=100, null=False, blank=False, verbose_name='title')
+    file = models.FileField(upload_to='files/factors', null=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    date = models.DateTimeField(null=False, blank=False, verbose_name='date', default=timezone.now)
+
+    def __str__(self):
+        return f'title:{self.title}, User:{self.user.phone}'
+
+    def save(self, *args, **kwargs):
+        if self.file:
+            # File is being added or updated
+            self.date = timezone.now()  # Update the date field with the current timestamp
+        super().save(*args, **kwargs)

@@ -1,6 +1,9 @@
 {% extends 'shared/_layout.html' %}
 
 {% block content %}
+    <style>
+
+</style>
   <!-- Start My Account  -->
     <div class="my-account-box-main">
         <div class="container">
@@ -23,13 +26,15 @@
                         <div class="account-box">
                             <div class="service-box">
                                 <div class="service-icon">
-                                    <a href="#"><i class="fa fa-user"></i> </a>
+                                    <a href="{% url 'user-profile-edit' %}"><i class="fa fa-user"></i> </a>
                                 </div>
                                 <div class="service-desc">
-                                    <a href="#">
+                                    <a href="{% url 'user-profile-edit' %}">
                                     <h4>تنظیمات حساب کاربری</h4>
                                     </a>
-                                    <p>ویرایش رمز عبور، نام، تلفن</p>
+                                    <a href="{% url 'user-profile-edit' %}">
+                                        <p>ویرایش رمز عبور، نام، تلفن</p>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -43,6 +48,8 @@
                                 <div class="service-desc">
                                     <a href="{% url 'shops_list' %}">
                                     <h4>پرداخت ها</h4>
+                                    </a>
+                                    <a href="{% url 'shops_list' %}">
                                     <p>بازدید از لیست خرید های قبلی</p>
                                     </a>
                                 </div>
@@ -59,7 +66,9 @@
                                     <a href="{% url 'wishlist_view' %}">
                                         <h4>لیست علاقه مندی ها</h4>
                                     </a>
-                                    <p>بازدید و ویرایش لیست علاقه مندی ها</p>
+                                    <a href="{% url 'wishlist_view' %}">
+                                        <p>بازدید و ویرایش لیست علاقه مندی ها</p>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -74,7 +83,9 @@
                                     <a href="{% url 'cart_view' %}">
                                         <h4>سبد خرید</h4>
                                     </a>
+                                    <a  href="{% url 'cart_view' %}">
                                         <p>بازدید و ویرایش سبد خرید</p>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -83,11 +94,15 @@
                         <div class="account-box">
                             <div class="service-box">
                                 <div class="service-icon">
-                                    <a href="#"><i class="fa fa-chart-bar"></i> </a>
+                                    <a href="{% url 'user-factors' %}"><i class="fa fa-chart-bar"></i> </a>
                                 </div>
                                 <div class="service-desc">
-                                    <h4>فاکتور ها</h4>
-                                    <p>بازدید و دانلود فاکتورها</p>
+                                    <a href="{% url 'user-factors' %}">
+                                        <h4>فاکتور ها</h4>
+                                     </a>
+                                    <a href="{% url 'user-factors' %}">
+                                        <p>بازدید و دانلود فاکتورها</p>
+                                    </a>
                                 </div>
                             </div>
                         </div>

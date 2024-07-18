@@ -1,0 +1,49 @@
+{% extends 'shared/_layout.html' %}
+{% load product_custom_filters %}
+{% load static %}
+
+
+{% block content %}
+<!-- Start Wishlist  -->
+    <div class="wishlist-box-main" id="order_favorite_content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="table-main table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>شناسه فاکتور</th>
+                                    <th>عنوان فاکتور</th>
+                                    <th>تاریخ فاکتور</th>
+                                    <th>دانلود</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for factor in factors %}
+                                <tr>
+                                    <td class="thumbnail-img">
+                                        <a href="#">
+									{{ factor.id }}
+								</a>
+                                    </td>
+                                    <td class="quantity-box">{{ factor.title }}</td>
+                                    <td class="quantity-box">{{ factor.date }}</td>
+                                    <td class="add-pr">
+                                        <a class="btn hvr-hover" href="{% url 'factor-download' factor_id=factor.id %}">دانلود</a>
+                                    </td>
+
+                               </tr>
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Wishlist -->
+
+
+{% endblock %}

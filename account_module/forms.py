@@ -48,3 +48,24 @@ class LoginForm(forms.ModelForm):
             }
 
         }
+
+class EditProfileForm(forms.ModelForm):
+    class Meta:
+        model= User
+        fields = ['full_name', 'address']
+
+        widgets = {
+            'full_name': forms.TextInput(attrs={
+                'class': 'form-control'
+            }),
+            'address': forms.TextInput(attrs={
+                'class': 'form-control',
+                'rows': 5,
+                'id': 'message'
+            })
+        }
+
+        labels = {
+            'full_name': 'نام و نام خانوادگی:',
+            'address': "آدرس:",
+        }
