@@ -2,7 +2,9 @@
 {% load static %}
 {% load render_partial %}
 {% load thumbnail %}
+
 {% block content %}
+    <script src="{% static 'js/product.js' %}"></script>
   <style>
     .price-range {
       background-color: red;
@@ -10,7 +12,21 @@
       padding: 10px;
       font-weight: bold;
     }
+       .center {
+            text-align: center;
+        }
+        .pagination {
+            display: inline-block;
+        }
+        .pagination a {
+            font-size: 15px;
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+        }
   </style>
+
     <!-- Start Shop Page  -->
     <div class="shop-box-inner">
         <div class="container">
@@ -160,5 +176,26 @@
             </div>
         </div>
     </div>
+    </div>
+    <!-- start pagination divs -->
+    <div class="center">
+        <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+        {% endif %}
+            {% for page_number in paginator.page_range %}
+                  <a href="?page={{ page_number }}" class="page-number">{{page_number}}</a>
+
+            {% endfor %}
+
+
+        {% if page_obj.has_next %}
+              <a href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+        {% endif %}
+        </div>
+    </div>
+
+        <!-- end pagination divs -->
+
     <!-- End Shop Page -->
 {% endblock %}
