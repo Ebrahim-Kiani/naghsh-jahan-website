@@ -14,7 +14,11 @@ function showLargeImage(imagesrc, imageid){
 
 }
 function addProducToOrder(product_Id){
-    const product_count = $('#product-count').val();
+    let product_count = $('#product-count').val();
+    if (!product_count){
+         product_count = 1;
+    }
+
     $.get('/order/add-to-order?product_id=' + product_Id+ '&count=' + product_count).then(res => {
         Swal.fire({
             title: res.title,

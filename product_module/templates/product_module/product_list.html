@@ -34,8 +34,8 @@
                 <div class="col-xl-3 col-lg-3 col-sm-12 col-xs-12 sidebar-shop-left">
                     <div class="product-categori">
                         <div class="search-product">
-                            <form action="#">
-                                <input class="form-control" placeholder="Search here..." type="text">
+                           <form action="{% url 'product-list' %}" method="get">
+                                <input class="form-control" placeholder="...اینجا جستجو کنید" type="text" name="search" value="{{ search_query }}">
                                 <button type="submit"> <i class="fa fa-search"></i> </button>
                             </form>
                         </div>
@@ -62,16 +62,14 @@
                         <div class="product-item-filter row">
                             <div class="col-12 col-sm-8 text-center text-sm-left">
                                 <div class="toolbar-sorter-right">
-                                    <span>Sort by </span>
-                                    <select id="basic" class="selectpicker show-tick form-control" data-placeholder="$ USD">
-									<option data-display="Select">Nothing</option>
-									<option value="1">Popularity</option>
-									<option value="2">High Price → High Price</option>
-									<option value="3">Low Price → High Price</option>
-									<option value="4">Best Selling</option>
+
+                                    <select id="basic" class="selectpicker show-tick form-control" onchange="location = this.value;">
+									<option value="?sort=title" {% if current_sort == 'title' %}data-display="Select" selected{% endif %}>هیچکدام</option>
+									<option value="?sort=price" {% if current_sort == 'price' %}data-display="Select" selected {% endif %}>قیمت زیاد → قیمت کم</option>
+									<option value="?sort=-price" {% if current_sort == '-price' %}data-display="Select" selected {% endif %}>قیمت کم → قیمت زیاد</option>
 								</select>
                                 </div>
-                                <p>Showing all 4 results</p>
+                                <p style="font-size: 20px">مرتب سازی بر اساس</p>
                             </div>
                             <div class="col-12 col-sm-4 text-center text-sm-right">
                                 <ul class="nav nav-tabs ml-auto">
@@ -103,14 +101,14 @@
                                                     {% endthumbnail %}
                                                     <div class="mask-icon">
                                                         <ul>
-                                                            <li><a href="{% url 'product-detail' slug=product.slug   %}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
-                                                            <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i class="fas fa-sync-alt"></i></a></li>
-                                                            <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
-                                                        </ul>
-                                                        <a class="cart" href="#">Add to Cart</a>
+                                                                <li><a href="{% url 'product-detail' slug=product.slug  %}" data-toggle="tooltip" data-placement="right" title="جزئیات محصول"><i class="fas fa-eye"></i></a></li>
+                                                                <li><a href="#" data-toggle="tooltip" data-placement="right" title="اضافه به علاقه مندی ها" onclick="addProducToWishlist({{ product.id }})"><i class="far fa-heart"></i></a></li>
+                                                            </ul>
+                                                        <a class="cart" onclick="addProducToOrder({{ product.id }})" href="#">اضافه به سبد خرید</a>
                                                     </div>
                                                 </div>
-                                                <div class="why-text">
+                                            <a href="{% url 'product-detail' slug=product.slug  %}">
+                                                <div class="why-text" >
                                                     <h4>{{ product.short_description }}</h4>
                                                     <h5> {{ product.price }}</h5>
                                                     <h6 style="color: red"> {% if product.Discount %}
@@ -118,6 +116,7 @@
                                                     {% endif %}
                                                     </h6>
                                                 </div>
+                                            </a>
                                             </div>
                                         </div>
 
@@ -139,9 +138,8 @@
                                                         {% endthumbnail %}
                                                         <div class="mask-icon">
                                                             <ul>
-                                                                <li><a href="{% url 'product-detail' slug=product.slug  %}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
-                                                                <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i class="fas fa-sync-alt"></i></a></li>
-                                                                <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
+                                                                <li><a href="{% url 'product-detail' slug=product.slug  %}" data-toggle="tooltip" data-placement="right" title="جزئیات محصول"><i class="fas fa-eye"></i></a></li>
+                                                                <li><a href="#" data-toggle="tooltip" data-placement="right" title="اضافه به علاقه مندی ها" onclick="addProducToWishlist({{ product.id }})"><i class="far fa-heart"></i></a></li>
                                                             </ul>
 
                                                         </div>
@@ -181,7 +179,7 @@
     <div class="center">
         <div class="pagination">
         {% if page_obj.has_previous %}
-            <a href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+            <a href="?page={{ page_obj.previous_page_number }}&sort={{ current_sort }}">&laquo;</a>
         {% endif %}
             {% for page_number in paginator.page_range %}
                   <a href="?page={{ page_number }}" class="page-number">{{page_number}}</a>
@@ -190,7 +188,7 @@
 
 
         {% if page_obj.has_next %}
-              <a href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+              <a href="?page={{ page_obj.next_page_number }}&sort={{ current_sort }}">&raquo;</a>
         {% endif %}
         </div>
     </div>

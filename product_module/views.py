@@ -14,13 +14,15 @@ class ProductListView(ListView):
     template_name = 'product_module/product_list.html'
     model = Product
     context_object_name = 'products'
-    ordering = ['-price']
+    ordering = ['title']
     paginate_by = 9
 
     def get_queryset(self):
         query = super(ProductListView, self).get_queryset()
         category_name = self.kwargs.get('categories')
         brand_name = self.kwargs.get('brand')
+        sort_by = self.request.GET.get('sort', 'title')  # Default sort by 'title'
+        search= self.request.GET.get('search')
 
         if category_name is not None:
             try:
@@ -31,7 +33,18 @@ class ProductListView(ListView):
         if brand_name is not None:
             query = query.filter(category__slug__iexact=brand_name)
 
+        if search is not None:
+            query = query.filter(title__icontains=search)
+
+        query = query.order_by(sort_by)
+
         return query
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['current_sort'] = self.request.GET.get('sort', 'title')
+        context['search_value'] = self.request.GET.get('search','')
+        return context
 
 
 class ProductDetailView(DetailView):
