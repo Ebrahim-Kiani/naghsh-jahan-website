@@ -3,29 +3,17 @@ from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from django.db import models
 from django.utils import timezone
 
-
 class MyUserManager(BaseUserManager):
 
-    def create_user(self, phone, full_name, password=None):
-
-        if not phone:
-            raise ValueError('User must have an phone number')
-
-        if not full_name:
-            raise ValueError('Users must have a full name')
-
-        user = self.model(
-
-            phone=phone,
-
-            full_name=full_name,
-
-        )
-
-        user.set_password(password)
-
+    def create_user(self, phone_number, is_staff=False, **extra_fields):
+        if not phone_number:
+            raise ValueError('The Phone number must be set')
+        user = self.model(phone_number=phone_number, is_staff=is_staff, **extra_fields)
+        if is_staff:
+            user.set_password(extra_fields.get('password'))
+        else:
+            user.set_unusable_password()
         user.save(using=self._db)
-
         return user
 
     def create_superuser(self, phone, full_name, password=None):
@@ -53,9 +41,7 @@ class MyUserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     objects = MyUserManager()
     phone = models.CharField(max_length=11, null=True, blank=True, unique=True)
-    phone_active_code = models.CharField(max_length=40, verbose_name='phone active code', blank=True, null=True)
-    activation_code_expiration = models.DateTimeField(null=True, blank=True)
-    full_name = models.CharField(max_length=20, null=False, blank=False, verbose_name='full name')
+    full_name = models.CharField(max_length=20, null=True, blank=True, verbose_name='full name')
     is_active = models.BooleanField(default=False, verbose_name='is user active?')
     is_staff = models.BooleanField(default=False, verbose_name='is user staff?')
     address = models.TextField(null=True, blank=True, verbose_name='address')

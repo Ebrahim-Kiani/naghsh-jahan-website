@@ -29,23 +29,21 @@ class RegisterForm(forms.ModelForm):
 class LoginForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['phone', 'password']
+        fields = ['phone']
 
         widgets = {
             'phone': forms.TextInput(),
-            'password': forms.PasswordInput(),
+
         }
         labels = {
             'phone': 'شماره همراه:',
-            'password': "رمز عبور:",
+
         }
         error_messages = {
             'phone': {
                 'required': 'شماره همراه اجباری می باشد. لطفا وارد کنید'
             },
-            'password':{
-                'required':'رمز عبور اجباری میباشد لطفا آن را وارد کنید'
-            }
+
 
         }
 

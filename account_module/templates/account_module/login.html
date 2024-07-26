@@ -13,11 +13,9 @@
     {% csrf_token %}
             {{ login_form.phone.label }}
             {{ login_form.phone }}
-            {{ login_form.phone.error }}
+            {{ login_form.phone.errors }}
       <br>
-            {{ login_form.password.label }}
-            {{ login_form.password }}
-            {{ login_form.password.error }}
+
 
 
     <button type="submit"> ورود </button>
