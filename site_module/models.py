@@ -46,3 +46,16 @@ class FooterLink(models.Model):
 
     def __str__(self):
         return self.title
+
+class Ads(models.Model):
+    text1 = models.CharField(max_length=100, verbose_name='متن اول')
+    text2 = models.CharField(max_length=100, verbose_name='متن دوم')
+    text3 = models.CharField(max_length=100, verbose_name='متن سوم')
+    text4 = models.CharField(max_length=100, verbose_name='متن چهارم')
+    text5 = models.CharField(max_length=100, verbose_name='متن پنجم')
+    text6 = models.CharField(max_length=100, verbose_name='متن ششم')
+
+    class Meta:
+        verbose_name = 'تبلیغ هدر سایت'
+        verbose_name_plural = 'تبلیغات هدر سایت'
+

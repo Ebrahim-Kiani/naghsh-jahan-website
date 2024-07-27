@@ -1,4 +1,7 @@
 {% load static %}
+{% load thumbnail %}
+{% load render_partial %}
+
 <!-- Start Main Top -->
     <div class="main-top">
         <div class="container-fluid">
@@ -7,51 +10,58 @@
                     <div class="text-slid-box">
                         <div id="offer-box" class="carouselTicker">
                             <ul class="offer-box">
+                                {% if ads.text1 %}
                                 <li>
-                                    <i class="fab fa-opencart"></i> Off 10%! Shop Now Man
+                                    <i class="fab fa-opencart"></i> {{ ads.text1 }}
                                 </li>
+                                {% endif %}
+                                {% if ads.text2 %}
                                 <li>
-                                    <i class="fab fa-opencart"></i> 50% - 80% off on Fashion
+                                    <i class="fab fa-opencart"></i> {{ ads.text2 }}
                                 </li>
+                                {% endif %}
+                                {% if ads.text3 %}
                                 <li>
-                                    <i class="fab fa-opencart"></i> 20% off Entire Purchase Promo code: offT20
+                                    <i class="fab fa-opencart"></i> {{ ads.text3 }}
                                 </li>
+                                {% endif %}
+                                {% if ads.text4 %}
                                 <li>
-                                    <i class="fab fa-opencart"></i> Off 50%! Shop Now
+                                    <i class="fab fa-opencart"></i> {{ ads.text4 }}
                                 </li>
+                                {% endif %}
+                                {% if ads.text5 %}
                                 <li>
-                                    <i class="fab fa-opencart"></i> Off 10%! Shop Now Man
+                                    <i class="fab fa-opencart"></i> {{ ads.text5 }}
                                 </li>
+                                {% endif %}
+                                {% if ads.text6 %}
                                 <li>
-                                    <i class="fab fa-opencart"></i> 50% - 80% off on Fashion
+                                    <i class="fab fa-opencart"></i> {{ ads.text6 }}
                                 </li>
-                                <li>
-                                    <i class="fab fa-opencart"></i> 20% off Entire Purchase Promo code: offT20
-                                </li>
-                                <li>
-                                    <i class="fab fa-opencart"></i> Off 50%! Shop Now
-                                </li>
+                                {% endif %}
+                                
                             </ul>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <div class="custom-select-box">
-                        <select id="basic" class="selectpicker show-tick form-control" data-placeholder="$ USD">
-						<option>¥ JPY</option>
-						<option>$ USD</option>
-						<option>€ EUR</option>
-					</select>
-                    </div>
+{#                    <div class="custom-select-box">#}
+{#                        <select id="basic" class="selectpicker show-tick form-control" data-placeholder="$ USD">#}
+{#						<option>¥ JPY</option>#}
+{#						<option>$ USD</option>#}
+{#						<option>€ EUR</option>#}
+{#					</select>#}
+{#                    </div>#}
                     <div class="right-phone-box">
-                        <p>Call US :- <a href="#"> +11 900 800 100</a></p>
+                        <p>با ما تماس بگیرید: <a href="tel:{{ site_setting.phone }}"> {{ site_setting.phone }}</a></p>
                     </div>
                     <div class="our-link">
                         <ul>
                             {% if user_authenticated == True %}
                                 <li><a href="{% url 'my_account' %}">&#x1F9B2;حساب کاربری من</a></li>
                             {% else %}
-                                <li><a href="{% url 'register' %}">ورود/ثبت نام</a></li>  
+                                <li><a href="{% url 'login' %}">ورود/ثبت نام</a></li>  
                             {% endif %}
                             
                             <li><a href="#">آدرس ما</a></li>
@@ -74,7 +84,12 @@
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
-                    <a class="navbar-brand" href="{% url 'home-page' %}"><img src="{{ site_setting.site_logo.url }}" class="logo" alt="logo"></a>
+                    <a class="navbar-brand" href="{% url 'home-page' %}">
+                         {% thumbnail  site_setting.site_logo '110x110' quality=100 crop='center' as im %}
+                             <img src="{{ im.url }}" class="logo" alt="logo">
+                         {% endthumbnail %}
+
+                    </a>
                 </div>
                 <!-- End Header Navigation -->
 
@@ -82,8 +97,9 @@
                 <div class="collapse navbar-collapse" id="navbar-menu">
                     <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
                         <li class="nav-item"><a class="nav-link" href="{% url 'home-page' %}">صفحه اصلی</a></li>
-                        <li class="dropdown active megamenu-fw">
-                            <a href="{% url 'product-list' %}" class="nav-link dropdown-toggle arrow" >محصولات</a>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'product-list' %}">محصولات</a></li>
+                        <li class="dropdown megamenu-fw">
+                            <a  class="nav-link dropdown-toggle arrow" >دسته بندی ها</a>
                             
                             <ul class="dropdown-menu megamenu-content" role="menu">
                                
@@ -96,10 +112,10 @@
                                             <div class="col-menu col-md-3">
                                                 <h6 class="title"><a href="{% url 'product-category-list' categories=main_category.slug %}"> {{ main_category.title}}  </a></h6>
                                                 <div class="content">
-                                                    <ul class="menu-col">
+                                                    <ul class="menu-col" style="text-align: right; direction: rtl">
                                                        {% for sub_category in sub_categories %}
                                                             {% if sub_category.parent_category == main_category  %}
-                                                                <li><a href="{% url 'product-category-list' categories=sub_category.slug %}"> {{ sub_category.title}} </a></li>
+                                                                <li ><a href="{% url 'product-category-list' categories=sub_category.slug %}"> {{ sub_category.title}} </a></li>
                                                             {% endif %}
                                                        {% endfor %}
                                                     
@@ -120,17 +136,18 @@
                             
                         </li>
                         <li class="dropdown">
-                            <a href="#" class="nav-link dropdown-toggle arrow" data-toggle="dropdown">فروشگاه</a>
+                            <a  class="nav-link dropdown-toggle arrow" data-toggle="dropdown">فروشگاه</a>
                             <ul class="dropdown-menu">
                                 <li><a style="text-align: right" href="{% url 'cart_view' %}">سبد خرید</a></li>
-                                <li><a  style="text-align: right" href="checkout.html">پرداخت</a></li>
+                                <li><a  style="text-align: right" href="{% url 'shops_list' %}">پرداخت</a></li>
                                 <li><a style="text-align: right" href="{% url 'my_account' %}">حساب کاربری</a></li>
                                 <li><a style="text-align: right" href="{% url 'wishlist_view' %}">لیست علاقه مندی ها</a></li>
                                 
                             </ul>
                         </li>
                         <li class="nav-item"><a class="nav-link" href="service.html">سرویس های ما</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">درباره ما</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#"> درباره ما </a></li>
+
                     </ul>
                 </div>
                 <!-- /.navbar-collapse -->
@@ -141,39 +158,15 @@
 {#                        <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>#}
                         <li class="side-menu"><a href="#">
 						<i class="fa fa-shopping-bag"></i>
-                            <span class="badge">3</span>
+
 					</a></li>
                     </ul>
                 </div>
                 <!-- End Atribute Navigation -->
             </div>
             <!-- Start Side Menu -->
-            <div class="side">
-                <a href="#" class="close-side"><i class="fa fa-times"></i></a>
-                <li class="cart-box">
-                    <ul class="cart-list">
-                        <li>
-                            <a href="#" class="photo"><img src="{% static 'images/img-pro-01.jpg' %}" class="cart-thumb" alt="" /></a>
-                            <h6><a href="#">Delica omtantur </a></h6>
-                            <p>1x - <span class="price">$80.00</span></p>
-                        </li>
-                        <li>
-                            <a href="#" class="photo"><img src="{% static 'images/img-pro-02.jpg' %}" class="cart-thumb" alt="" /></a>
-                            <h6><a href="#">Omnes ocurreret</a></h6>
-                            <p>1x - <span class="price">$60.00</span></p>
-                        </li>
-                        <li>
-                            <a href="#" class="photo"><img src="{% static 'images/img-pro-03.jpg' %}" class="cart-thumb" alt="" /></a>
-                            <h6><a href="#">Agam facilisis</a></h6>
-                            <p>1x - <span class="price">$40.00</span></p>
-                        </li>
-                        <li class="total">
-                            <a href="#" class="btn btn-default hvr-hover btn-cart">VIEW CART</a>
-                            <span class="float-right"><strong>Total</strong>: $180.00</span>
-                        </li>
-                    </ul>
-                </li>
-            </div>
+
+           {% render_partial 'user_panel_module.views.cart_header_component' %}
             <!-- End Side Menu -->
         </nav>
         <!-- End Navigation -->

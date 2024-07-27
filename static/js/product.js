@@ -106,11 +106,11 @@ document.addEventListener('DOMContentLoaded', function () {
     for (let i = 0; i < pageLinks.length; i++) {
         if (pageNumber==null) {
 
-                    pageLinks[0].style.backgroundColor = 'red';
+                    pageLinks[0].style.backgroundColor = 'blue';
                 pageLinks[0].style.color = 'white';
                 };
         if (pageLinks[i].textContent == pageNumber) {
-            pageLinks[i].style.backgroundColor = 'red';
+            pageLinks[i].style.backgroundColor = 'blue';
         pageLinks[i].style.color = 'white';
         }else {
             pageLinks[i].style.backgroundColor = 'white';

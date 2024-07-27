@@ -1,28 +1,102 @@
-{% extends 'shared/_layout.html' %}
-
-{% block content %}
-
-   <!DOCTYPE html>
-<html>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <title>User Registration and Login</title>
+	<title>صفحه ورود</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="{% static 'images/icons/naghsh-jahan-logo.png' %}"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'fonts/iconic/css/material-design-iconic-font.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/animate/animate.css' %}">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/css-hamburgers/hamburgers.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/animsition/css/animsition.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/select2/select2.min.css' %}">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/daterangepicker/daterangepicker.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+<!--===============================================================================================-->
 </head>
-<body>
-  <h2>User login</h2>
-  <form action="{% url 'login' %}" method="post">
-    {% csrf_token %}
-            {{ login_form.phone.label }}
-            {{ login_form.phone }}
-            {{ login_form.phone.errors }}
-      <br>
+
+	
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+
+				<form class="login100-form validate-form" action="{% url 'login' %}" method="post">
+					{% csrf_token %}
+                    <span class="login100-form-title p-b-26">
+                        <h1>
+                           	صفحه ورود
+                        </h1>
+
+                        <h2>
+                            پرده سرای نقش جهان
+                        </h2>
+					</span>
+					<span class="login100-form-title p-b-48">
+
+
+					</span>
 
 
 
-    <button type="submit"> ورود </button>
-  </form>
+                            <div class="wrap-input100 validate-input">
 
-</body>
+                            <input class="input100" id="phone" type="text" name="phone">
+                            <span class="focus-input100" data-placeholder="تلفن مانند : 09139071847 "></span>
+                        </div>
+
+
+                        <div class="container-login100-form-btn">
+                            <div class="wrap-login100-form-btn">
+                                <div class="login100-form-bgbtn"></div>
+                                <button class="login100-form-btn">
+                                    ورود یا ثبت نام
+                                </button>
+                            </div>
+
+                        </div>
+
+
+
+				</form>
+                <a style="float: right; margin-top: 15px" href="{% url 'home-page' %}"> بازگشت به صفحه اصلی </a>
+			</div>
+
+		</div>
+	</div>
+	
+
+	<div id="dropDownSelect1"></div>
+	
+<!--===============================================================================================-->
+	<script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'vendor/animsition/js/animsition.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'vendor/bootstrap/js/popper.js' %}"></script>
+	<script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'vendor/select2/select2.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'vendor/daterangepicker/moment.min.js' %}"></script>
+	<script src="{% static 'vendor/daterangepicker/daterangepicker.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'vendor/countdowntime/countdowntime.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'js/main.js' %}"></script>
+
+    </body>
 </html>
-
-
-{% endblock %}

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from category_module.models import ProductCategory
 from home_module.models import instagram
-from site_module.models import SiteSetting, FooterLinkBox
+from site_module.models import SiteSetting, FooterLinkBox, Ads
 from django.utils.safestring import mark_safe
 
 # sending data for footer components
@@ -30,9 +30,10 @@ def site_footer_references(request):
 
 # build dynamic herder references for main categories and sub categories
 def site_header_references_categories(request):
+    ads = Ads.objects.first()
     main_categories = ProductCategory.objects.filter(parent_category__isnull=True)
     sub_categories = ProductCategory.objects.filter(parent_category__isnull=False)
-
+    setting: SiteSetting = SiteSetting.objects.filter(is_main_setting=True).first()
 # title can not send to template because its farsi, so it should be first encode(ex:b'\xd9\xbe\xd8\xb1\xd8\xaf\xd9\x87')
     # and second decoded to utf-8 standard and making safe for templates
     for main_category in main_categories:
@@ -50,7 +51,9 @@ def site_header_references_categories(request):
     context = {
         'main_categories': main_categories,
         'sub_categories': sub_categories,
-        'user_authenticated': user_authenticated
+        'user_authenticated': user_authenticated,
+        'site_setting': setting,
+        'ads':ads
     }
 
     return render(request, 'shared/site_header_references.html', context)

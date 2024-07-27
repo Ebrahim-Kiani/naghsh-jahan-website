@@ -24,6 +24,7 @@ class Product(models.Model):
     is_active = models.BooleanField(default=False, verbose_name='فعال / غیرفعال')
     is_delete = models.BooleanField(verbose_name='حذف شده / نشده')
     is_featured = models.BooleanField(default=False, verbose_name='محصول ویژه است؟')
+    is_sale = models.BooleanField(default=False, verbose_name='آیا برای فروش آنلاین است؟')
 
     def calculate_discount(self):
         if self.Discount == 0:

@@ -1,0 +1,39 @@
+{% load product_custom_filters %}
+
+            <!-- Start Side Menu -->
+        {% if current_order %}
+            <div class="side">
+                <a href="#" class="close-side"><i class="fa fa-times"></i></a>
+                <li class="cart-box">
+                    <ul class="cart-list">
+                        
+                        {% for detail in current_order.orderdetail_set.all %}
+                            <li>
+                                <a href="#" class="photo"><img src="{{ detail.product.image.url }}" class="cart-thumb" alt="" /></a>
+                                <h6><a href="#">{{ detail.product.title}} </a></h6>
+                                <p> تعداد: {{ detail.count }} - <span class="price">{{detail.product.price | get_tooman }}</span></p>
+                            </li>
+
+                        {% endfor %}
+                      <li class="total">
+                            <a href="{% url 'cart_view' %}" class="btn btn-default hvr-hover btn-cart">مشاهده سبد خرید</a>
+                            
+                        </li>
+                    </ul>
+                </li>
+            </div>
+        {% endif %}
+        {% if error %}
+            <div class="side">
+                <a href="#" class="close-side"><i class="fa fa-times"></i></a>
+                <li class="cart-box">
+                    <ul class="cart-list">
+                    
+                           <p>ابتدا وارد حساب کاربری خود شوید</p>
+
+                        
+                    </ul>
+                </li>
+            </div>
+        {% endif %}
+            <!-- End Side Menu -->

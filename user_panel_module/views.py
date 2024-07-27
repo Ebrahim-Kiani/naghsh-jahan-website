@@ -206,3 +206,20 @@ def download_factors(request, factor_id):
             # Handle the case when the file is not available
             return HttpResponse('File not found.')
 
+
+def cart_header_component(request):
+    if request.user.is_authenticated:
+        current_order, created = Order.objects.get_or_create(is_paid=False, user=request.user)
+
+        total_amount = 0
+        for detail in current_order.orderdetail_set.all():
+            total_amount += detail.product.price * detail.count
+
+        context = {
+                'current_order': current_order
+            }
+    else:
+        context = {
+            'error': "ابتدا وارد حساب کاربری خود شوید"
+        }
+    return render(request, 'shared/components/cart.html', context)

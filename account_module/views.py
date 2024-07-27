@@ -1,5 +1,5 @@
 from django.http import HttpRequest
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect
 import base64
 from django.views.generic import View
 from .forms import RegisterForm, LoginForm
@@ -10,34 +10,6 @@ import pyotp
 
 # Create your views here.
 User = get_user_model()
-class RegisterView(View):
-    def get(self, request):
-        register_form = RegisterForm()
-        context = {
-            'register_form':register_form
-        }
-        return render(request, 'account_module/register_page.html', context)
-
-    def post(self, request):
-        register_form = RegisterForm(request.POST)
-        context = {
-            'register_form': register_form
-        }
-        if register_form.is_valid():
-            user_phone = register_form.cleaned_data['phone']
-            user_password = register_form.cleaned_data['password']
-            print(user_phone, user_password)
-            user : bool = User.objects.filter(phone__iexact=user_phone).exists()
-            if user == True:
-                return register_form.add_error('phone', 'تلفن وارد شده وجود دارد')
-            else:
-                user = User(phone=user_phone, is_active=True)
-                user.set_password(user_password)
-                user.save()
-                #return redirect('login')
-
-        return render(request, 'account_module/register_page.html', context)
-
 
 def send_otp(user):
     device, created = TOTPDevice.objects.get_or_create(user=user)
@@ -101,8 +73,18 @@ class VerifyView(View):
             login(request, user)
             return redirect('my_account')
         else:
-            return render(request, 'account_module/otp_form.html', {'error': 'Invalid OTP'})
+            return render(request, 'account_module/otp_form.html', {'error': 'کد معتبر نمی باشد لطفا دوباره درخواست دهید'})
 
 
+def resend_otp(request):
 
+    user_phone = request.session['phone_number']
 
+    user = User.objects.get(phone=user_phone)
+
+    otp_value = send_otp(user)
+    print(otp_value)
+
+    request.session['otp_value'] = otp_value
+
+    return redirect('verify')

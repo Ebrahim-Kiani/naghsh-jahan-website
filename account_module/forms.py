@@ -32,7 +32,7 @@ class LoginForm(forms.ModelForm):
         fields = ['phone']
 
         widgets = {
-            'phone': forms.TextInput(),
+            'phone': forms.TextInput(attrs={'placeholder':'مانند:09139071847'}),
 
         }
         labels = {

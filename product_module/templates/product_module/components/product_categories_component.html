@@ -1,4 +1,5 @@
 <div class="filter-sidebar-left">
+
                             <div class="title-left">
                                 <h3>دسته بندی ها</h3>
                             </div>
@@ -6,6 +7,8 @@
                             <div class="list-group list-group-collapse list-group-sm list-group-tree" id="list-group-men" data-children=".sub-men">
 
                                 <div class="list-group-collapse sub-men">
+                                 <a class="nav-link" href="{% url 'product-list' %}">همه محصولات</a>
+
                                 {% for main_category in main_categories %}
                                     <p class="list-group-item list-group-item-action"  data-toggle="collapse" aria-expanded="false" aria-controls="sub-men1">
                                         <a href="{% url 'product-category-list' categories=main_category.slug %}" class="list-group-item list-group-item-action active">

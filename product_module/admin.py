@@ -6,8 +6,8 @@ from . import models
 class ProductAdmin(admin.ModelAdmin):
     readonly_fields = ['slug']
     list_filter = ['category', 'is_active']
-    list_display = ['title','price', 'is_active', 'is_delete', 'Discount']
-    list_editable = ['price', 'is_active', 'Discount']
+    list_display = ['title','price', 'is_active', 'is_delete', 'Discount', 'is_sale']
+    list_editable = ['price', 'is_active', 'Discount', 'is_sale']
 
 
 
