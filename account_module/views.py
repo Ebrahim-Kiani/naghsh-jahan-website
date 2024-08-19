@@ -71,7 +71,9 @@ class VerifyView(View):
             user.is_active = True
             user.save()
             login(request, user)
+
             return redirect('my_account')
+
         else:
             return render(request, 'account_module/otp_form.html', {'error': 'کد معتبر نمی باشد لطفا دوباره درخواست دهید'})
 

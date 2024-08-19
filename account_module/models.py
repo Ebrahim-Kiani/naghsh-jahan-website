@@ -3,6 +3,8 @@ from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
 from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from django.db import models
 from django.utils import timezone
+from django.core.exceptions import ValidationError
+
 
 class MyUserManager(BaseUserManager):
 
@@ -39,16 +41,19 @@ class MyUserManager(BaseUserManager):
         return self.get(**{self.model.USERNAME_FIELD: phone})
 
 
+def validate_length_10(value):
+    if len(value) != 10:
+        raise ValidationError('طول کد پستی و کد ملی باید دقیقا ۱۰ رقم باشد.')
 class User(AbstractBaseUser, PermissionsMixin):
     objects = MyUserManager()
     phone = models.CharField(max_length=11, null=True, blank=True, unique=True, verbose_name='تلفن:')
-    full_name = models.CharField(max_length=20, null=True, blank=True, verbose_name='نام و نام خانوادگی:')
+    full_name = models.CharField(max_length=40, null=True, blank=False, verbose_name='نام و نام خانوادگی:')
     is_active = models.BooleanField(default=False, verbose_name='آیا کاربر فعال است؟')
     is_staff = models.BooleanField(default=False, verbose_name='آیا کاربر کارمند است؟')
-    address = models.TextField(null=True, blank=True, verbose_name='آدرس شما:')
-    melli_code = models.CharField(max_length=10 , null=True, blank=True, verbose_name='کد ملی:')
-    code_posty =  models.CharField(max_length=10 , null=True , blank=True, verbose_name='کد پستی بدون خط فاصله:')
-
+    address = models.TextField(null=True, blank=False, verbose_name='آدرس شما:')
+    melli_code = models.CharField(max_length=10 ,unique=True, null=True, blank=False, verbose_name='کد ملی', validators=[validate_length_10])
+    code_posty =  models.CharField(max_length=10 , null=True , blank=False, verbose_name='کد پستی بدون خط فاصله:', validators=[validate_length_10])
+    is_completed = models.BooleanField(null=False, blank=True ,default=False)
 
     USERNAME_FIELD = 'phone'
     REQUIRED_FIELDS = ['full_name']

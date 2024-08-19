@@ -1,28 +1,12 @@
 {% extends 'shared/_layout.html' %}
 
 {% block content %}
+<meta charset="UTF-8">
 
     <!-- Start Contact Us  -->
-    <div class="contact-box-main">
+    <div class="contact-box-main" style="direction: rtl">
         <div class="container">
             <div class="row">
-                <div class="col-lg-4 col-sm-12">
-                    <div class="contact-info-left">
-                        <h2>CONTACT INFO</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent urna diam, maximus ut ullamcorper quis, placerat id eros. Duis semper justo sed condimentum rutrum. Nunc tristique purus turpis. Maecenas vulputate. </p>
-                        <ul>
-                            <li>
-                                <p><i class="fas fa-map-marker-alt"></i>Address: Michael I. Days 3756 <br>Preston Street Wichita,<br> KS 67213 </p>
-                            </li>
-                            <li>
-                                <p><i class="fas fa-phone-square"></i>Phone: <a href="tel:+1-888705770">+1-888 705 770</a></p>
-                            </li>
-                            <li>
-                                <p><i class="fas fa-envelope"></i>Email: <a href="mailto:contactinfo@gmail.com">contactinfo@gmail.com</a></p>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
                 <div class="col-lg-8 col-sm-12">
                     <div class="contact-form-right">
                         <h2 style="text-align:right">ویرایش پروفایل</h2>
@@ -35,21 +19,40 @@
                                 <div class="col-md-12">
                                     {{ form.full_name.label_tag }}
                                 {{ form.full_name }}
-                                {{ form.full_name.errors }}
+
                                 </div>
 
                                 <div class="col-md-12">
                                 {{ form.address.label_tag }}
                                 {{ form.address }}
-                                {{ form.address.errors }}
+
+                                </div>
+                                <div class="col-md-12">
+                                {{ form.melli_code.label_tag }}
+                                {{ form.melli_code }}
+
+                                </div>
+                            <div class="col-md-12">
+                                {{ form.code_posty.label_tag }}
+                                {{ form.code_posty }}
+
                                 </div>
 
-                                    </div>
                                     <div class="submit-button text-center">
                                         <button type="submit" class="btn hvr-hover">ارسال</button>
                                         <div id="msgSubmit" class="h3 text-center hidden"></div>
                                         <div class="clearfix"></div>
                                     </div>
+                        </form>
+                        {% if form.errors %}
+        <div style="color: red; direction: rtl; width: 90%; height: 20px;font-size: 20px">
+          {% for field, errors in form.errors.items %}
+            {% for error in errors %}
+              <p>خطا : {{ error }}</p>
+            {% endfor %}
+          {% endfor %}
+        </div>
+      {% endif %}
                                 </div>
                             </div>
                         </form>

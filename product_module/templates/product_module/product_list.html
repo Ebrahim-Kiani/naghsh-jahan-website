@@ -4,6 +4,7 @@
 {% load thumbnail %}
 {% load custom_filters %}
 {% block content %}
+{% load product_custom_filters %}
     <script src="{% static 'js/product.js' %}"></script>
   <style>
           .page-number {
@@ -41,7 +42,7 @@
   </style>
 
     <!-- Start Shop Page  -->
-    <div class="shop-box-inner">
+    <div class="shop-box-inner" >
         <div class="container">
             <div class="row">
                 <div class="col-xl-3 col-lg-3 col-sm-12 col-xs-12 sidebar-shop-left">
@@ -106,7 +107,7 @@
 
                                         {% for product in products %}
 
-                                            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                                            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4" style="direction: rtl">
                                             <div class="products-single fix">
                                                 <div class="box-img-hover">
                                                     <div class="type-lb">
@@ -129,10 +130,10 @@
                                                 </div>
                                             <a href="{% url 'product-detail' slug=product.slug  %}">
                                                 <div class="why-text" >
-                                                    <h4>{{ product.short_description }}</h4>
-                                                    <h5> {{ product.price }}</h5>
+                                                    <h4>{{ product.title }}</h4>
+                                                    <h5> {{ product.price | get_tooman }}</h5>
                                                     <h6 style="color: red"> {% if product.Discount %}
-                                                                 offer={{ product.Discount }}%
+                                                                 تخفیف={{ product.Discount }}%
                                                     {% endif %}
                                                     </h6>
                                                 </div>
@@ -166,15 +167,15 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                                <div class="col-sm-6 col-md-6 col-lg-8 col-xl-8">
+                                                <div class="col-sm-6 col-md-6 col-lg-8 col-xl-8" style="direction: rtl" >
                                                 <div class="why-text full-width">
-                                                    <h4>{{ product.title }}</h4>
-                                                    <h5> <del>{{ product.price }}</del>
+                                                    <h4>{{ product.short_description }}</h4>
+                                                    <h5> <del>{{ product.price | get_tooman  }}</del>
                                                         {% if product.Discount %}
-                                                            {{ product.calculate_discount }}
+                                                            {{ product.calculate_discount | get_tooman }}
                                                         {% endif %}
                                                     </h5>
-                                                    <p>{{ product.description }}</p>
+                                                    <p  >{{ product.description }}</p>
                                                     <a class="btn hvr-hover" onclick="addProducToOrder({{ product.id }},{{ request.user.is_authenticated }})">افزودن به سبد خرید</a>
                                                 </div>
                                             </div>

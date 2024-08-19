@@ -32,6 +32,11 @@ function addProducToOrder(product_Id){
         }).then((result)=>{
             if ( result.isConfirmed && res.status === 'not_authenticated'){
                 window.location.href = '/account/login';
+            }else {
+                if (result.isConfirmed && res.status === 'not_completed') {
+                    window.location.href = '/panel/profile-update/';
+                };
+
             };
         })
     });

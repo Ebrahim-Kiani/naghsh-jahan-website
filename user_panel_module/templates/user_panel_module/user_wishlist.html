@@ -4,7 +4,7 @@
 
 
 {% block content %}
-<script src="{% static 'js/product.js' %}"> </script>
+    <script src="{% static 'js/product.js' %}"></script>
 <style>
     .remove-pr a:hover i {
         color: red;
@@ -48,7 +48,7 @@
                                     </td>
                                     <td class="quantity-box">{{ objects.product.inventory }}</td>
                                     <td class="add-pr">
-                                        <a class="btn hvr-hover" href="#">Add to Cart</a>
+                                        <a class="btn hvr-hover" style="color: white" onclick="addProducToOrder({{ objects.product.id }})">افزودن به سبد خرید</a>
                                     </td>
                                     <td class="remove-pr">
                                         <a onclick="remove_favorite({{ objects.id }})">

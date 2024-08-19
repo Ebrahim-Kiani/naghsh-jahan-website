@@ -1,11 +1,33 @@
 {% extends 'shared/_layout.html' %}
 {% load product_custom_filters %}
 {% load static %}
-
+{% load custom_filters %}
 
 {% block content %}
 <script src="{% static 'js/product.js' %}"> </script>
 <style>
+       .center {
+            text-align: center;
+        }
+        .pagination {
+            display: inline-block;
+        }
+        .pagination a {
+            font-size: 15px;
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+        }
+     .page-number {
+                color: black; /* default color */
+                text-decoration: none;
+            }
+
+            .page-number.first-page-number {
+                color: white; /* color for the first page number */
+                background-color: #2a43e8;
+            }
     .remove-pr a:hover i {
         color: red;
     }
@@ -27,7 +49,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            {% for detail in order.orderdetail_set.all  %}
+                            {% for detail in order  %}
                                 <tr>
                                     <td class="thumbnail-img">
                                         <p>{{ detail.id }}</p>
@@ -58,5 +80,34 @@
     </div>
 
     <!-- End Cart -->
+<div class="center">
+    <div class="pagination">
+        <!-- Previous Page Link -->
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}&sort={{ current_sort }}">&laquo;</a>
+        {% endif %}
+
+        <!-- Pagination Links -->
+        {% for page_number in paginator.page_range %}
+            {% if page_number >= page_obj.number and page_number < page_obj.number|positive_five %}
+                <!-- Highlight the Active Page -->
+                {% if page_number == page_obj.number %}
+                    <a href="?page={{ page_number }}" class="page-number first-page-number active">
+                        {{ page_number }}
+                    </a>
+                {% else %}
+                    <a href="?page={{ page_number }}" class="page-number">
+                        {{ page_number }}
+                    </a>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+
+        <!-- Next Page Link -->
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}&sort={{ current_sort }}">&raquo;</a>
+        {% endif %}
+    </div>
+</div>
 
 {% endblock %}

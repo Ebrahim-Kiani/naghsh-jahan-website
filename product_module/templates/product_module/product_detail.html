@@ -5,7 +5,7 @@
 {% block content %}
     <script src="{% static 'js/product.js' %}"></script>
     <!-- Start Shop Detail  -->
-    <div class="shop-detail-box-main">
+    <div class="shop-detail-box-main" style="direction: rtl">
         <div class="container">
             <div class="row">
                 <div class="col-xl-5 col-lg-5 col-md-6">
@@ -68,7 +68,7 @@
                          <h5>  {{ product.price | get_tooman }} </h5>
                     {% endif %}
                         </h5>
-                        <p class="available-stock"><span>{{ product.inventory }}:موجودی انبار </span>
+                        <p class="available-stock"><span>موجودی انبار: {{ product.inventory }}</span>
                             <p>
                                 <h4 style="text-align: right; dir:rtl">{{ product.short_description }}:</h4>
                                 <p style="text-align: right; dir:rtl">{{ product.description }} </p>

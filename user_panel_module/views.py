@@ -1,14 +1,15 @@
 import mimetypes
 
 from django.contrib.auth import get_user_model
-from django.http import JsonResponse, FileResponse, HttpResponse
-from django.shortcuts import render
+from django.db.models import Q
+from django.http import JsonResponse, HttpResponse
+from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
-from django.views.generic import ListView, DetailView, View
+from django.views.generic import ListView, View
 from account_module import forms
 from account_module.models import Factors
 from favorite_module.models import Favorite
-from order_module.models import Order
+from order_module.models import Order, OrderDetail
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
@@ -135,7 +136,7 @@ def user_wishlist_remove(request):
 class user_ShopListView(ListView):
     model = Order
     template_name = 'user_panel_module/user_shops.html'
-
+    paginate_by = 10
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -143,16 +144,25 @@ class user_ShopListView(ListView):
         return queryset
 
 @method_decorator(login_required , name='dispatch')
-class user_ShopDetailView(DetailView):
-    model = Order
+class user_ShopDetailView(ListView):
+
     template_name = 'user_panel_module/user_shop_detail.html'
-
+    paginate_by = 10  # If you want pagination to apply to OrderDetail objects
+    context_object_name = 'order'
     def get_queryset(self):
-        queryset = super().get_queryset()
-        pk = self.kwargs.get('pk')
-        queryset = queryset.prefetch_related('orderdetail_set').filter(user=self.request.user, id=pk, is_paid=True)
 
-        return queryset
+        # Fetch related OrderDetail objects with select_related for optimization
+        self.order_details = OrderDetail.objects.select_related('order').filter(
+            order__id=self.kwargs['pk'],
+            order__user=self.request.user,
+            order__is_paid=True
+        )
+
+
+
+        return self.order_details
+
+
 
 
 # user edit profiles
@@ -160,6 +170,7 @@ class user_ShopDetailView(DetailView):
 class user_ProfileUpdateView(View):
 
     def get(self, request, *args, **kwargs):
+
         current_user = User.objects.get(id=request.user.id)
         edit_form = forms.EditProfileForm(instance=current_user)
         context = {
@@ -171,7 +182,18 @@ class user_ProfileUpdateView(View):
         edit_form = forms.EditProfileForm(request.POST, instance=current_user)
 
         if edit_form.is_valid():
-            edit_form.save()
+
+            # Save form and get the updated user instance
+            user = edit_form.save(commit=False)
+
+            # Perform additional operations here if needed
+            user.is_completed = True  # Example: Set the `is_completed` field
+
+            # Save the user instance
+            user.save()
+
+            return redirect('my_account')
+
         context = {
             'form':edit_form
         }
@@ -186,7 +208,14 @@ class FactorsListView(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        factors = Factors.objects.filter(user=self.request.user).order_by('-id')
+        search = self.request.GET.get('search')
+
+        if search is not None:
+            factors =  Factors.objects.filter(Q(user=self.request.user) and Q(code_factor__icontains=search)).order_by('-id')
+        else:
+            factors = Factors.objects.filter(user=self.request.user).order_by('-id')
+
+
         return factors
 
 

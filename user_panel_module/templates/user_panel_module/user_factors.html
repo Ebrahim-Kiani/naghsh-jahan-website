@@ -37,10 +37,67 @@
             padding: 8px 16px;
             text-decoration: none;
         }
+                input.form-control {
+            direction: ltr;
+            text-align: left;
+        }
+
+        /* Style the placeholder to be RTL */
+        input.form-control::placeholder {
+            direction: rtl;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .all-factors {
+            margin: 30px auto;
+            background-color: #ffffff;
+            width: 250px;
+            height: 40px;
+            font-size: 20px;
+        }
+        .all-factors button {
+            color: white;
+            background-color: #2a43e8;
+            border-radius: 10px;
+            border: solid black;
+            padding: 10px 20px;
+            box-shadow: 0 5px #1a2b96; /* 3D effect shadow */
+            transition: all 0.2s ease; /* Smooth transition */
+        }
+
+        .all-factors button:hover {
+            color: #2a43e8;
+            background-color: #ffffff;
+            border: solid #2a43e8;
+            box-shadow: 0 3px #1a2b96; /* Make the shadow smaller on hover */
+            transform: translateY(2px); /* Simulate pressing the button down */
+        }
+
+
   </style>
 
 <!-- Start Wishlist  -->
+
     <div class="wishlist-box-main" id="order_favorite_content">
+
+    <!-- Search bar of factors  -->
+                <div class="search-product" style="margin: 0 auto; width: 90%;">
+                    <form action="{% url 'user-factors' %}" method="get">
+                        <input class="form-control rtl-placeholder" placeholder=".... اینجا جستو جو کنید (کد فاکتور را وارد کنید)" type="text" name="search" value="{{ search_query }}">
+                        <button type="submit"> <i class="fa fa-search"></i> </button>
+                    </form>
+
+                </div>
+                <div class="all-factors">
+                    <a  href="{% url 'user-factors' %}">
+                        <button type="submit"> مشاهده همه فاکتور ها </button>
+                    </a>
+                </div>
+
+    <!-- end Search bar of factors  -->
+
+
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
