@@ -59,3 +59,26 @@ class Ads(models.Model):
         verbose_name = 'تبلیغ هدر سایت'
         verbose_name_plural = 'تبلیغات هدر سایت'
 
+class Service(models.Model):
+    our_mission = models.TextField(verbose_name='ماموریت ما:')
+    our_vision = models.TextField(verbose_name='دیدگاه ما:')
+    our_philosophy = models.TextField(verbose_name='فلسفه ما:')
+    we_are_trusted = models.TextField(verbose_name='به ما اعتماد کنید زیرا:')
+    we_are_professional = models.TextField(verbose_name='ما حرفه ای هستیم زیرا:')
+    our_stories = models.TextField(verbose_name='داستان ما:')
+
+    class Meta:
+        verbose_name = 'سرویس ما'
+        verbose_name_plural = 'سرویس های ما'
+
+class AboutUs(models.Model):
+    title = models.CharField(max_length=100, verbose_name='موضوع')
+    description = models.TextField(verbose_name='توضیحات')
+    image = models.ImageField(upload_to='images/about_us', verbose_name='تصویر درباره ما')
+
+    class Meta:
+        verbose_name = 'درباره ما'
+        verbose_name_plural = 'درباره های ما'
+
+    def __str__(self):
+        return self.title

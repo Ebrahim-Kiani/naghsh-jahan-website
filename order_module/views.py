@@ -8,6 +8,7 @@ from product_module.models import Product
 # Create your views here.
 
 def add_product(request:HttpRequest):
+
     product_id = int(request.GET.get('product_id'))
     product_count = int(request.GET.get('count'))
 
@@ -16,6 +17,7 @@ def add_product(request:HttpRequest):
         product = Product.objects.filter(id=product_id, is_active=True, is_delete=False, is_sale=True).first()
         if product is not None:
             user_order, create = Order.objects.get_or_create(user_id=request.user.id, is_paid=False)
+            print(create)
             user_order_detail = user_order.orderdetail_set.filter(product_id=product_id).first()
             if user_order_detail is not None:
                 user_order_detail.count += product_count

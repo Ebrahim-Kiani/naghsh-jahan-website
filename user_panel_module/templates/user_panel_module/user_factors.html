@@ -1,9 +1,44 @@
 {% extends 'shared/_layout.html' %}
 {% load product_custom_filters %}
 {% load static %}
-
+{% load custom_filters %}
 
 {% block content %}
+      <style>
+          .page-number {
+            color: black; /* default color */
+            text-decoration: none;
+        }
+
+        .page-number.first-page-number {
+            color: white; /* color for the first page number */
+            background-color: #2a43e8;
+        }
+
+        .page-link {
+            text-decoration: none;
+        }
+    .price-range {
+      background-color: red;
+      color: white;
+      padding: 10px;
+      font-weight: bold;
+    }
+       .center {
+            text-align: center;
+        }
+        .pagination {
+            display: inline-block;
+        }
+        .pagination a {
+            font-size: 15px;
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+        }
+  </style>
+
 <!-- Start Wishlist  -->
     <div class="wishlist-box-main" id="order_favorite_content">
         <div class="container">
@@ -13,7 +48,8 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>شناسه فاکتور</th>
+                                    <th>شماره فاکتور</th>
+                                    <th>کد فاکتور</th>
                                     <th>عنوان فاکتور</th>
                                     <th>تاریخ فاکتور</th>
                                     <th>دانلود</th>
@@ -23,12 +59,17 @@
                             {% for factor in factors %}
                                 <tr>
                                     <td class="thumbnail-img">
-                                        <a href="#">
+
 									{{ factor.id }}
-								</a>
+
+                                    </td>
+                                    <td class="thumbnail-img">
+
+									{{ factor.code_factor }}
+
                                     </td>
                                     <td class="quantity-box">{{ factor.title }}</td>
-                                    <td class="quantity-box">{{ factor.date }}</td>
+                                    <td class="quantity-box">{{ factor.date|gregorian_to_shamsi }}</td>
                                     <td class="add-pr">
                                         <a class="btn hvr-hover" href="{% url 'factor-download' factor_id=factor.id %}">دانلود</a>
                                     </td>
@@ -44,6 +85,30 @@
         </div>
     </div>
     <!-- End Wishlist -->
+<div class="center">
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}&sort={{ current_sort }}">&laquo;</a>
+        {% endif %}
 
+        {% for page_number in paginator.page_range %}
+            {% if page_number >= page_obj.number and page_number < page_obj.number|positive_five %}
+                 {% if page_number == page_obj.number %}
+                    <a href="?page={{ page_number }}" class="page-number first-page-number">
+                        {{ page_number }}
+                    </a>
+                {% else %}
+                    <a href="?page={{ page_number }}" class="page-number">
+                        {{ page_number }}
+                    </a>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}&sort={{ current_sort }}">&raquo;</a>
+        {% endif %}
+    </div>
+</div>
 
 {% endblock %}

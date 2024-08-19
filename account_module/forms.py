@@ -1,5 +1,8 @@
 from django import forms
 from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm
+
+from account_module.models import Factors
 
 User = get_user_model()
 class RegisterForm(forms.ModelForm):
@@ -67,3 +70,16 @@ class EditProfileForm(forms.ModelForm):
             'full_name': 'نام و نام خانوادگی:',
             'address': "آدرس:",
         }
+
+
+class UserCreationFormNoPassword(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('phone', 'full_name', 'address', 'melli_code', 'code_posty')
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        # If you need to set any default values or process data, do it here
+        if commit:
+            user.save()
+        return user

@@ -2,10 +2,23 @@
 {% load static %}
 {% load render_partial %}
 {% load thumbnail %}
-
+{% load custom_filters %}
 {% block content %}
     <script src="{% static 'js/product.js' %}"></script>
   <style>
+          .page-number {
+            color: black; /* default color */
+            text-decoration: none;
+        }
+
+        .page-number.first-page-number {
+            color: white; /* color for the first page number */
+            background-color: #2a43e8;
+        }
+
+        .page-link {
+            text-decoration: none;
+        }
     .price-range {
       background-color: red;
       color: white;
@@ -183,24 +196,32 @@
     </div>
     </div>
     <!-- start pagination divs -->
-    <div class="center">
-        <div class="pagination">
+<div class="center">
+    <div class="pagination">
         {% if page_obj.has_previous %}
             <a href="?page={{ page_obj.previous_page_number }}&sort={{ current_sort }}">&laquo;</a>
         {% endif %}
-            {% for page_number in paginator.page_range %}
-                  <a href="?page={{ page_number }}" class="page-number">{{page_number}}</a>
 
-            {% endfor %}
-
+        {% for page_number in paginator.page_range %}
+            {% if page_number >= page_obj.number and page_number < page_obj.number|positive_five %}
+                 {% if page_number == page_obj.number %}
+                    <a href="?page={{ page_number }}" class="page-number first-page-number">
+                        {{ page_number }}
+                    </a>
+                {% else %}
+                    <a href="?page={{ page_number }}" class="page-number">
+                        {{ page_number }}
+                    </a>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
 
         {% if page_obj.has_next %}
-              <a href="?page={{ page_obj.next_page_number }}&sort={{ current_sort }}">&raquo;</a>
+            <a href="?page={{ page_obj.next_page_number }}&sort={{ current_sort }}">&raquo;</a>
         {% endif %}
-        </div>
     </div>
+</div>
 
-        <!-- end pagination divs -->
 
     <!-- End Shop Page -->
 {% endblock %}

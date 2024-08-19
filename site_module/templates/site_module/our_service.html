@@ -1,0 +1,66 @@
+{% extends 'shared/_layout.html' %}
+
+{% block content %}
+
+    <!-- Start Services  -->
+    <div class="services-box-main" style="direction: rtl">
+        <div class="container">
+            <div class="row my-5">
+                <div class="col-sm-6 col-lg-4">
+                    {% if service.our_mission %}
+                        <div class="service-block-inner">
+                            <h3>ماموریت ما</h3>
+                            <p>{{ service.our_mission }}</p>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                    {% if service.our_vision %}
+                        <div class="service-block-inner">
+                            <h3>دیدگاه ما</h3>
+                            <p>{{ service.our_vision }} </p>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                    {% if service.our_philosophy %}
+                        <div class="service-block-inner">
+                            <h3>فلسفه ما</h3>
+                            <p>{{ service.our_philosophy }}</p>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                    {% if service.we_are_trusted %}
+                        <div class="service-block-inner">
+                            <h3>ما مورد اعتماد هستیم زیرا</h3>
+                            <p>{{ service.we_are_trusted }}</p>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                    {% if service.we_are_professional %}
+                        <div class="service-block-inner">
+                            <h3>ما حرفه ای هستیم زیرا</h3>
+                            <p>{{ service.we_are_professional }}</p>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                    {% if service.our_stories %}
+                    <div class="service-block-inner">
+                        <h3>داستان ما</h3>
+                        <p>{{ service.our_stories }}</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <!-- End Services -->
+
+
+{% endblock %}

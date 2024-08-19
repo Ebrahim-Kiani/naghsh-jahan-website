@@ -90,33 +90,3 @@ function remove_favorite(favorite_Id){
      })
 };
 
-// make paginations active
-
-     // Get the page number from the current URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const pageNumber = urlParams.get('page');
-    const pageNumberType = typeof pageNumber;
-    console.log('Page number:', pageNumber);
-    console.log(`The type of pageNumber is: ${pageNumberType}`);
-
-        // Loop through the links and perform desired actions
-
-document.addEventListener('DOMContentLoaded', function () {
-    const pageLinks = document.getElementsByClassName('page-number');
-    for (let i = 0; i < pageLinks.length; i++) {
-        if (pageNumber==null) {
-
-                    pageLinks[0].style.backgroundColor = 'blue';
-                pageLinks[0].style.color = 'white';
-                };
-        if (pageLinks[i].textContent == pageNumber) {
-            pageLinks[i].style.backgroundColor = 'blue';
-        pageLinks[i].style.color = 'white';
-        }else {
-            pageLinks[i].style.backgroundColor = 'white';
-        pageLinks[i].style.color = 'black';
-        }
-    }
-});
-
-

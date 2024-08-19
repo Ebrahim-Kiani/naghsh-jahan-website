@@ -59,12 +59,14 @@
                     <div class="our-link">
                         <ul>
                             {% if user_authenticated == True %}
+                                <li><a class="fas fa-times" href="{% url 'logout' %}">خروج از حساب کاربری</a></li>
                                 <li><a href="{% url 'my_account' %}">&#x1F9B2;حساب کاربری من</a></li>
+                                
                             {% else %}
                                 <li><a href="{% url 'login' %}">ورود/ثبت نام</a></li>  
                             {% endif %}
                             
-                            <li><a href="#">آدرس ما</a></li>
+                            
                             <li><a href="{% url 'contact_us' %}">ارتباط با ما</a></li>
                         </ul>
                     </div>
@@ -85,7 +87,7 @@
                     <i class="fa fa-bars"></i>
                 </button>
                     <a class="navbar-brand" href="{% url 'home-page' %}">
-                         {% thumbnail  site_setting.site_logo '110x110' quality=100 crop='center' as im %}
+                         {% thumbnail  site_setting.site_logo '95x95' quality=100 crop='center' as im %}
                              <img src="{{ im.url }}" class="logo" alt="logo">
                          {% endthumbnail %}
 
@@ -145,8 +147,8 @@
                                 
                             </ul>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="service.html">سرویس های ما</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#"> درباره ما </a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'our_service' %}">سرویس های ما</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'about_us' %}"> درباره ما </a></li>
 
                     </ul>
                 </div>

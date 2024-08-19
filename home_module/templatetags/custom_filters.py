@@ -1,3 +1,4 @@
+import jdatetime
 from django import template
 
 register = template.Library()
@@ -17,6 +18,16 @@ def get_index(lst, index):
     except IndexError:
         return None
 
+@register.filter
+def gregorian_to_shamsi(value):
+    if value:
+        shamsi_date = jdatetime.datetime.fromgregorian(datetime=value)
+        return shamsi_date.strftime('%Y-%m-%d')
+    return value
 
+
+@register.filter
+def positive_five(value):
+    return value+5
 
 

@@ -8,15 +8,18 @@ from django.views.generic import ListView, DetailView, View
 from account_module import forms
 from account_module.models import Factors
 from favorite_module.models import Favorite
-from order_module.models import Order, OrderDetail
-from product_module.models import Product
+from order_module.models import Order
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
+from django.utils.decorators import method_decorator
 
 # Create your views here.
 User = get_user_model()
+
+@login_required
 def my_account(request):
     return render(request, 'user_panel_module/user_panel.html')
-
+@login_required
 def user_cart(request):
     current_order, created  = Order.objects.get_or_create(is_paid=False, user=request.user)
 
@@ -35,7 +38,7 @@ def user_cart(request):
     }
 
     return render(request, 'user_panel_module/user_cart.html', context)
-
+@login_required
 def remove_order_detail(request):
 
     detail_id = request.GET.get('detail_id')
@@ -66,7 +69,7 @@ def remove_order_detail(request):
     }
     data = render_to_string('user_panel_module/user_cart.html', context)
     return JsonResponse({'status': 'success', 'body': data})
-
+@login_required
 def change_order_detail(request):
     detail_id = request.GET.get('detail_id')
 
@@ -101,7 +104,7 @@ def change_order_detail(request):
 
 
 # starting wish list functions
-
+@login_required
 def user_wishlist(request):
     # Retrieve all products from the user's favorites
     products = Favorite.objects.filter(user=request.user).select_related('product')
@@ -111,7 +114,7 @@ def user_wishlist(request):
     }
     return render(request, 'user_panel_module/user_wishlist.html', context)
 
-
+@login_required
 def user_wishlist_remove(request):
     favorite_id = int(request.GET.get('favorite_id'))
     print(favorite_id)
@@ -128,7 +131,7 @@ def user_wishlist_remove(request):
     return JsonResponse({'status': 'success', 'body': data})
 
 # user shop list views
-
+@method_decorator(login_required , name='dispatch')
 class user_ShopListView(ListView):
     model = Order
     template_name = 'user_panel_module/user_shops.html'
@@ -139,7 +142,7 @@ class user_ShopListView(ListView):
         queryset = queryset.filter(user=self.request.user, is_paid=True)
         return queryset
 
-
+@method_decorator(login_required , name='dispatch')
 class user_ShopDetailView(DetailView):
     model = Order
     template_name = 'user_panel_module/user_shop_detail.html'
@@ -153,6 +156,7 @@ class user_ShopDetailView(DetailView):
 
 
 # user edit profiles
+@method_decorator(login_required , name='dispatch')
 class user_ProfileUpdateView(View):
 
     def get(self, request, *args, **kwargs):
@@ -174,16 +178,20 @@ class user_ProfileUpdateView(View):
         return render(request, 'user_panel_module/user_edit_profile.html', context)
 
 # user factors views
-def user_factors(request):
+@method_decorator(login_required , name='dispatch')
+class FactorsListView(ListView):
+    template_name = 'user_panel_module/user_factors.html'
+    model = Factors
+    context_object_name = 'factors'
+    paginate_by = 10
 
-    factors = Factors.objects.filter(user=request.user)
-    context = {
-        'factors':factors
-    }
-    return render(request, 'user_panel_module/user_factors.html', context)
+    def get_queryset(self):
+        factors = Factors.objects.filter(user=self.request.user).order_by('-id')
+        return factors
+
 
 # download factors
-
+@login_required
 def download_factors(request, factor_id):
         # Get the Factors instance
         factor = get_object_or_404(Factors, id=factor_id)
@@ -223,3 +231,4 @@ def cart_header_component(request):
             'error': "ابتدا وارد حساب کاربری خود شوید"
         }
     return render(request, 'shared/components/cart.html', context)
+

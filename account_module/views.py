@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 import base64
 from django.views.generic import View
 from .forms import RegisterForm, LoginForm
-from django.contrib.auth import get_user_model, login
+from django.contrib.auth import get_user_model, login, logout
 from django_otp.plugins.otp_totp.models import TOTPDevice
 import pyotp
 
@@ -28,7 +28,7 @@ def send_otp(user):
 
     return otp_value
 
-    return otp_value
+
 
 class LoginView(View):
     def get(self, request):
@@ -88,3 +88,7 @@ def resend_otp(request):
     request.session['otp_value'] = otp_value
 
     return redirect('verify')
+
+def LogoutView(request):
+    logout(request)
+    return redirect('home-page')

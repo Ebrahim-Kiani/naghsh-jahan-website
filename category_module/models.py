@@ -8,7 +8,7 @@ class ProductBrand(models.Model):
     slug= models.CharField(max_length=100, db_index=True, verbose_name='عنوان در URL')
     is_active = models.BooleanField(verbose_name= 'فعال/غیرفعال')
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.slug)
+        self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
     class Meta:

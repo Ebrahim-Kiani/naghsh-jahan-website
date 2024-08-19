@@ -10,6 +10,6 @@ urlpatterns = [
     path('shops_list/', views.user_ShopListView.as_view(), name='shops_list'),
     path('shop_detail/<int:pk>/', views.user_ShopDetailView.as_view(), name='shop_detail'),
     path('profile-update/', views.user_ProfileUpdateView.as_view(), name='user-profile-edit'),
-    path('user-factors/', views.user_factors, name='user-factors'),
+    path('user-factors/', views.FactorsListView.as_view(), name='user-factors'),
     path('factor-download/<int:factor_id>', views.download_factors, name='factor-download')
 ]

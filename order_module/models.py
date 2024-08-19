@@ -1,18 +1,18 @@
 from django.db import models
-
-from account_module.admin import User
+from django.contrib.auth import get_user_model
 from product_module.models import Product
 
 
 # Create your models here.
+User = get_user_model()
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='کاربر')
-    is_paid = models.BooleanField(verbose_name='نهایی شده/نشده')
+    is_paid = models.BooleanField(verbose_name='آیا سفارش پرداخت شده است؟')
     payment_date = models.DateField(null=True, blank=True, verbose_name='تاریخ پرداخت')
     grand_total = models.IntegerField(null=True, blank=True, verbose_name='مبلغ نهایی', default=0)
     def __str__(self):
-        return self.user
+        return str(self.id)
 
     def update_grand_total(self):
         self.grand_total = sum(detail.final_price for detail in self.orderdetail_set.all())

@@ -16,4 +16,7 @@ admin.site.register(models.SiteSetting)
 admin.site.register(models.FooterLinkBox)
 admin.site.register(models.FooterLink, FooterLinkAdmin)
 admin.site.register(models.Ads)
+admin.site.register(models.Service)
+admin.site.register(models.AboutUs)
+
 

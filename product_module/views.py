@@ -31,7 +31,7 @@ class ProductListView(ListView):
                 query = query.filter(category__slug__iexact=category_name)
 
         if brand_name is not None:
-            query = query.filter(category__slug__iexact=brand_name)
+            query = query.filter(brand__slug__iexact=brand_name)
 
         if search is not None:
             query = query.filter(title__icontains=search)

@@ -4,12 +4,13 @@
                             </div>
                             <div class="brand-box" tabindex="1" style="overflow: hidden; outline: none;">
                                 <ul>
-                                    {% for brand in product_brand %}
+                                    {% for brand in product_brands %}
                                     <li>
-                                        <div class="radio radio-danger">
-                                            <input name="survey" id="Radios1" value="Yes" type="radio">
-                                            <label for="Radios1"> {{ brand.title }} </label>
-                                        </div>
+                                        <p class="list-group-item list-group-item-action"  data-toggle="collapse" aria-expanded="false" aria-controls="sub-men1">
+                                            <a href="{% url 'product-brand-list' brand=brand.slug %}" class="list-group-item list-group-item-action active">
+                                                {{ brand.title }}
+                                            </a>
+								        </p>
                                     </li>
                                     {% endfor %}
                                 </ul>

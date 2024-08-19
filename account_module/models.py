@@ -1,3 +1,4 @@
+import random
 from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
 from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from django.db import models
@@ -40,32 +41,43 @@ class MyUserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     objects = MyUserManager()
-    phone = models.CharField(max_length=11, null=True, blank=True, unique=True)
-    full_name = models.CharField(max_length=20, null=True, blank=True, verbose_name='full name')
-    is_active = models.BooleanField(default=False, verbose_name='is user active?')
-    is_staff = models.BooleanField(default=False, verbose_name='is user staff?')
-    address = models.TextField(null=True, blank=True, verbose_name='address')
+    phone = models.CharField(max_length=11, null=True, blank=True, unique=True, verbose_name='تلفن:')
+    full_name = models.CharField(max_length=20, null=True, blank=True, verbose_name='نام و نام خانوادگی:')
+    is_active = models.BooleanField(default=False, verbose_name='آیا کاربر فعال است؟')
+    is_staff = models.BooleanField(default=False, verbose_name='آیا کاربر کارمند است؟')
+    address = models.TextField(null=True, blank=True, verbose_name='آدرس شما:')
+    melli_code = models.CharField(max_length=10 , null=True, blank=True, verbose_name='کد ملی:')
+    code_posty =  models.CharField(max_length=10 , null=True , blank=True, verbose_name='کد پستی بدون خط فاصله:')
+
+
     USERNAME_FIELD = 'phone'
     REQUIRED_FIELDS = ['full_name']
 
     class Meta:
-        verbose_name = 'Uesr'
-        verbose_name_plural = 'Users'
+        verbose_name = 'کاربر'
+        verbose_name_plural = 'کاربران'
 
     def __str__(self):
-        return self.phone
+        return str(self.phone)
 
 class Factors(models.Model):
-    title = models.CharField(max_length=100, null=False, blank=False, verbose_name='title')
-    file = models.FileField(upload_to='files/factors', null=True, blank=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    date = models.DateTimeField(null=False, blank=False, verbose_name='date', default=timezone.now)
+    title = models.CharField(max_length=100, null=False, blank=False, verbose_name='عنوان:')
+    file = models.FileField(upload_to='files/factors', null=True, blank=True,verbose_name='فایل فاکتور:')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='کاربر:')
+    date = models.DateTimeField(null=True, blank=True, verbose_name='تاریخ:', default=timezone.now)
+    code_factor = models.CharField(max_length=6, unique=True ,null=True, blank=False, verbose_name='کد فاکتور:')
 
     def __str__(self):
-        return f'title:{self.title}, User:{self.user.phone}'
+        return f'title: {self.title}, User: {self.user}'
 
     def save(self, *args, **kwargs):
         if self.file:
-            # File is being added or updated
-            self.date = timezone.now()  # Update the date field with the current timestamp
+            # File is being added or updated, update the date field with Shamsi date
+            self.date = timezone.now()  # Current time in Gregorian
+            self.code_factor = f'{random.randint(0, 999999):06}'
+
         super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = "فاکتور"
+        verbose_name_plural = 'فاکتور ها'

@@ -1,0 +1,24 @@
+{% extends 'shared/_layout.html' %}
+
+{% block content %}
+     <!-- Start About Page  -->
+    <div class="about-box-main" style="direction: rtl">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h2 class="noo-sh-title" >{{ aboutus.title }}</h2>
+                    <p>
+                        {{ aboutus.description}}
+                        </p>
+                </div>
+                <div class="col-lg-6">
+                    <div class="banner-frame"> <img class="img-thumbnail img-fluid" src="{{ aboutus.image.url }}" alt="" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- End About Page -->
+
+{% endblock %}

@@ -1,7 +1,9 @@
 from django.shortcuts import render
+from django.views.generic import TemplateView
+
 from category_module.models import ProductCategory
 from home_module.models import instagram
-from site_module.models import SiteSetting, FooterLinkBox, Ads
+from site_module.models import SiteSetting, FooterLinkBox, Ads, Service, AboutUs
 from django.utils.safestring import mark_safe
 
 # sending data for footer components
@@ -57,3 +59,21 @@ def site_header_references_categories(request):
     }
 
     return render(request, 'shared/site_header_references.html', context)
+
+class ServicesView(TemplateView):
+
+    template_name = 'site_module/our_service.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['service'] = Service.objects.first()
+        return context
+
+class AboutUsView(TemplateView):
+
+    template_name = 'site_module/about_us.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['aboutus'] = AboutUs.objects.first()
+        return context

@@ -1,7 +1,7 @@
 {% extends 'shared/_layout.html' %}
 {% load product_custom_filters %}
 {% load static %}
-
+{% load custom_filters %}
 
 {% block content %}
 <script src="{% static 'js/product.js' %}"> </script>
@@ -50,7 +50,7 @@
                                     <td class="price-pr">
                                         <p>{{ order.grand_total | get_tooman }}</p>
                                     </td>
-                                    <td class="quantity-box">{{ order.payment_date }}</td>
+                                    <td class="quantity-box">{{ order.payment_date | gregorian_to_shamsi }}</td>
                                     <td class="add-pr">
                                         <a class="btn hvr-hover" href="{% url 'shop_detail' pk=order.id %}">جزئیات</a>
                                     </td>
