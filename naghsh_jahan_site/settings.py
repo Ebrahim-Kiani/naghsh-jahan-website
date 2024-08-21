@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'favorite_module',
     #external modules
     'django_render_partial',
+    'django_htmx',
     'django_otp.plugins.otp_static',
     'sorl.thumbnail',
    # 'django.contrib.staticfiles',
@@ -70,6 +71,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_otp.middleware.OTPMiddleware',
+    'django_htmx.middleware.HtmxMiddleware',
 ]
 
 ROOT_URLCONF = 'naghsh_jahan_site.urls'

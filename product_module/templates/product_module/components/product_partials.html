@@ -1,12 +1,10 @@
-{% extends 'shared/_layout.html' %}
+{% load product_custom_filters %}
 {% load static %}
 {% load render_partial %}
 {% load thumbnail %}
 {% load custom_filters %}
-
-{% block content %}
-    <div id="django-content">
-{% load product_custom_filters %}
+{% load static %}
+ <div id="django-content">
     <script src="{% static 'js/product.js' %}"></script>
     <script src="{% static 'js/htmx.js' %}"></script>
   <style>
@@ -55,7 +53,6 @@
             text-decoration: none;
         }
   </style>
-
     <!-- Start Shop Page  -->
     <div class="shop-box-inner" id="shop-box-inner">
         <div class="container">
@@ -215,6 +212,7 @@
     </div>
     </div>
     <!-- start pagination divs -->
+
 <div class="center">
     <div class="pagination">
         {% if page_obj.has_previous %}
@@ -242,8 +240,4 @@
         {% endif %}
     </div>
 </div>
-
-
-    <!-- End Shop Page -->
-    </div>
-{% endblock %}
+ </div>
