@@ -30,4 +30,9 @@ urlpatterns = [
     path('site/', include('site_module.urls'))
 
 ]
-urlpatterns +=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# In your main urls.py file
+from django.conf.urls import handler404
+
+handler404 = 'home_module.views.custom_404'  # If you create a custom view for the 404 error

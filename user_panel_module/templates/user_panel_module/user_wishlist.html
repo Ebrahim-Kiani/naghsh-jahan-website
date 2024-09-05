@@ -34,12 +34,13 @@
                             {% for objects in products %}
                                 <tr>
                                     <td class="thumbnail-img">
-                                        <a href="#">
+                                        <a href="{% url 'product-detail' slug=objects.product.slug  %}">
 									<img class="img-fluid" src="{{ objects.product.image.url }}" alt="" />
 								</a>
                                     </td>
                                     <td class="name-pr">
-                                        <a href="#">
+
+                                        <a href="{% url 'product-detail' slug=objects.product.slug  %}">
                                             {{ objects.product.title}}
 								</a>
                                     </td>

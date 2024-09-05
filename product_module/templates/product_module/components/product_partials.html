@@ -126,11 +126,11 @@
                                             <div class="products-single fix">
                                                 <div class="box-img-hover">
                                                     <div class="type-lb">
-                                                        {% if product.is_sale %}
-                                                        <p class="sale">فروش آنلاین</p>
-                                                        {% else %}
-                                                        <p class="sale">فروش حضوری</p>
-                                                        {% endif %}
+                                                         {% if product.is_sale %}
+                                                                <p class="sale">فروش آنلاین</p>
+                                                                {% else %}
+                                                                <p class="sale">فروش حضوری</p>
+                                                         {% endif %}
                                                     </div>
                                                     {% thumbnail product.image '550x550' quality=100 crop='center' as im %}
                                                         <img src="{{ im.url }}" class="img-fluid" alt="Image">
@@ -167,7 +167,11 @@
                                                 <div class="products-single fix">
                                                     <div class="box-img-hover">
                                                         <div class="type-lb">
-                                                            <p class="new">New</p>
+                                                             {% if product.is_sale %}
+                                                                <p class="sale">فروش آنلاین</p>
+                                                                {% else %}
+                                                                <p class="sale">فروش حضوری</p>
+                                                             {% endif %}
                                                         </div>
                                                         {% thumbnail product.image '550x550' quality=100 crop='center' as im %}
                                                             <img src="{{ im.url }}" class="img-fluid" alt="Image">
@@ -175,7 +179,7 @@
                                                         <div class="mask-icon">
                                                             <ul>
                                                                 <li><a href="{% url 'product-detail' slug=product.slug  %}" data-toggle="tooltip" data-placement="right" title="جزئیات محصول"><i class="fas fa-eye"></i></a></li>
-                                                                <li><a href="#" data-toggle="tooltip" data-placement="right" title="اضافه به علاقه مندی ها" onclick="addProducToWishlist({{ product.id }}, {{ request.user.is_authenticated }})"><i class="far fa-heart"></i></a></li>
+                                                                <li><a href="#" data-toggle="tooltip" data-placement="right" title="اضافه به علاقه مندی ها" onclick="addProducToWishlist({{ product.id }})"><i class="far fa-heart"></i></a></li>
                                                             </ul>
 
                                                         </div>
@@ -191,7 +195,7 @@
                                                         {% endif %}
                                                     </h5>
                                                     <p  >{{ product.description }}</p>
-                                                    <a class="btn hvr-hover" onclick="addProducToOrder({{ product.id }},{{ request.user.is_authenticated }})">افزودن به سبد خرید</a>
+                                                    <a class="btn hvr-hover" onclick="addProducToOrder({{ product.id }})">افزودن به سبد خرید</a>
                                                 </div>
                                             </div>
                                             {% endfor %}

@@ -1,13 +1,12 @@
-from django.http import HttpRequest
-from django.shortcuts import render, redirect
+from django.http import HttpRequest, HttpResponseRedirect
+from django.shortcuts import render, redirect, reverse
 import base64
 from django.views.generic import View
-from .forms import RegisterForm, LoginForm
+from .forms import  RegisterForm, LoginPasswordForm
 from django.contrib.auth import get_user_model, login, logout
 from django_otp.plugins.otp_totp.models import TOTPDevice
 import pyotp
-
-
+from .utils.sms_package import SMSHandler
 # Create your views here.
 User = get_user_model()
 
@@ -28,32 +27,102 @@ def send_otp(user):
 
     return otp_value
 
+class RegisterView(View):
+    def get(self, request):
+
+        register_form = RegisterForm()
+        context = {'register_form': register_form,
+                    'error': 'false'
+                   }
+
+        return render(request, 'account_module/register_form.html' , context)
+
+    def post(self, request):
+        register_form = RegisterForm(request.POST)
+
+        if register_form.is_valid():
+
+            user_password = register_form.cleaned_data['password']
+            phone_number = request.session.get('phone_number', None)
+
+            user = User.objects.filter(phone=phone_number).first()
+            print(user_password)
+            if user is not None:
+                user.set_password(user_password)
+                user.save()
+
+                otp_value = send_otp(user)
+                request.session['otp_value'] = otp_value
+                request.session['phone_number'] = phone_number
+                print(otp_value)
+
+
+                sms_object = SMSHandler(user.phone, otp_value)
+                try:
+                    # sending sms
+                    status = SMSHandler.send_otp(sms_object)  # status of sending sms
+
+                    # send alert and return to login page if status is False
+                    if status == True:
+                        return HttpResponseRedirect(f"{reverse('verify')}?alert=true")
+                    else:
+                        return HttpResponseRedirect(f"{reverse('verify')}?alert=false")
+                except Exception:
+                    return HttpResponseRedirect(f"{reverse('login')}?alert=error")
+
+
+
+
+            else:
+                return HttpResponseRedirect(f"{reverse('login')}?alert=error")
+        else:
+            context = {
+                'register_form': register_form,
+                'error': 'true'
+            }
+            return render(request, 'account_module/register_form.html', context)
 
 
 class LoginView(View):
     def get(self, request):
-        login_form = LoginForm()
-        context = {
-            'login_form':login_form
-        }
-        return render(request, 'account_module/login.html', context)
+
+        return render(request, 'account_module/login.html')
 
     def post(self, request: HttpRequest):
-        login_form = LoginForm(request.POST)
-        context = {'login_form': login_form}
 
         user_phone = request.POST.get('phone')
 
         user, created = User.objects.get_or_create(phone=user_phone)
 
-        otp_value = send_otp(user)
-        print(otp_value)
+        if not created:
+            if (user.password == ''):
+                request.session['phone_number'] = user_phone
+                return HttpResponseRedirect(f"{reverse('register')}?alert=true")
 
-        request.session['otp_value'] = otp_value
-        request.session['phone_number'] = user_phone
+            otp_value = send_otp(user)
+            print(otp_value)
 
-        return redirect('verify')
+            # set object of sms class
+            sms_object = SMSHandler(user.phone, otp_value)
 
+            request.session['otp_value'] = otp_value
+            request.session['phone_number'] = user_phone
+
+            # try to send sms to user
+            try:
+                status = SMSHandler.send_otp(sms_object)  # status of sending sms
+
+                # send alert and return to login page if status is False
+                if status == True:
+                    return HttpResponseRedirect(f"{reverse('verify')}?alert=true")
+                else:
+                    return HttpResponseRedirect(f"{reverse('verify')}?alert=false")
+            except Exception:
+                return HttpResponseRedirect(f"{reverse('login')}?alert=error")
+
+        elif(user.password == ''):
+            request.session['phone_number'] = user_phone
+            return redirect('register')
 
 class VerifyView(View):
     def get(self, request):
@@ -87,9 +156,51 @@ def resend_otp(request):
     otp_value = send_otp(user)
     print(otp_value)
 
-    request.session['otp_value'] = otp_value
 
-    return redirect('verify')
+
+    # set object of sms class
+    sms_object = SMSHandler(user.phone, otp_value)
+
+    request.session['otp_value'] = otp_value
+    request.session['phone_number'] = user_phone
+
+    # try to send sms to user
+    try:
+        status = SMSHandler.send_otp(sms_object)  # status of sending sms
+
+        # send alert and return to login page if status is False
+        if status == True:
+            return HttpResponseRedirect(f"{reverse('verify')}?alert=true")
+        else:
+            return HttpResponseRedirect(f"{reverse('verify')}?alert=false")
+    except Exception:
+        return HttpResponseRedirect(f"{reverse('login')}?alert=error")
+
+
+
+class LoginPasswordView(View):
+    def get(self, request):
+        login_password_form = LoginPasswordForm()
+        context = {
+            'login_password_form': login_password_form
+        }
+        return render(request, 'account_module/login_password.html', context)
+    def post(self, request):
+        login_password_form = LoginPasswordForm(request.POST)
+        if login_password_form.is_valid():
+            user_phone = request.session['phone_number']
+            user = User.objects.get(phone=user_phone)
+            if user :
+                if user.check_password(request.POST['password']):
+                    login(request, user)
+                    return redirect('my_account')
+                else:
+                    login_password_form.add_error('password', 'کلمه عبور اشتباه است.')
+
+        context = {
+            'login_password_form': login_password_form
+        }
+        return render(request, 'account_module/login_password.html', context)
 
 def LogoutView(request):
     logout(request)

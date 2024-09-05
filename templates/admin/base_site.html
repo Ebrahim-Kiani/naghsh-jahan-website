@@ -1,0 +1,40 @@
+<script>
+    // Define the function to fetch notifications
+    function fetchNotifications() {
+        fetch("/order/notifications-endpoint/")
+            .then(response => response.json())
+            .then(data => {
+                const notificationsElement = document.getElementById('notifications');
+
+                // Clear existing notifications
+                notificationsElement.innerHTML = '';
+            
+                // Add new notifications
+                data.notifications.forEach(notification => {
+                    const notificationItem = document.createElement('li');
+                    notificationItem.textContent = notification.message;
+                      
+                    notificationsElement.appendChild(notificationItem);
+                });
+            })
+            .catch(error => console.error('Error fetching notifications:', error));
+    }
+
+    // Fetch notifications every 10 seconds
+    setInterval(fetchNotifications, 1000); // 10000 milliseconds = 10 seconds
+
+    // Initial fetch
+    fetchNotifications();
+</script>
+
+
+{% extends "admin/base.html" %}
+
+{% block content_title %}
+        <h1 style="color: red">اعلان ها</h1>
+        <ul style="color: white; background-color: #ec7254; font-weight: bold" id="notifications" >
+        <!-- Notifications will be dynamically added here -->
+        </ul>
+    <button> <a href="{% url 'delete-all-notifications' %}" style="font-size: large"> پاک کردن همه اعلان ها </a> </button>
+    {{ block.super }}
+{% endblock %}

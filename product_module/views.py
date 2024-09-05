@@ -10,47 +10,6 @@ from django.db import connection
 
 # Create your views here.
 
-class ProductListViewPartials(ListView):
-    template_name = 'product_module/components/product_partials.html'
-    model = Product
-    context_object_name = 'products'
-    ordering = ['title']
-    paginate_by = 9
-    def get(self, request, *args, **kwargs):
-        self.page = kwargs.get('page',1)  # Default to page 1 if no page is provided
-        return super().get(request, *args, **kwargs)
-
-    def get_queryset(self):
-        query = super(ProductListView, self).get_queryset()
-        category_name = self.kwargs.get('categories')
-        brand_name = self.kwargs.get('brand')
-        sort_by = self.request.GET.get('sort', 'title')  # Default sort by 'title'
-        search = self.request.GET.get('search')
-
-        if category_name is not None:
-            try:
-                query = query.filter(
-                    Q(category__slug__iexact=category_name) | Q(category__parent_category__slug__iexact=category_name))
-            except:
-                query = query.filter(category__slug__iexact=category_name)
-
-        if brand_name is not None:
-            query = query.filter(brand__slug__iexact=brand_name)
-
-        if search is not None:
-            query = query.filter(title__icontains=search)
-
-        query = query.order_by(sort_by)
-
-        return query
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['current_sort'] = self.request.GET.get('sort', 'title')
-        context['search_value'] = self.request.GET.get('search', '')
-        return context
-
-
 class ProductDetailView(DetailView):
     template_name = 'product_module/product_detail.html'
     model = Product
@@ -124,7 +83,7 @@ class ProductListView(ListView):
     def render_to_response(self, context, **response_kwargs):
 
         if self.request.htmx:
-            print("request come")
+
 
             # Check if request is from HTMX
             template_name = 'product_module/components/product_partials.html'

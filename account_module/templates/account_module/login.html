@@ -27,6 +27,15 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 <!--===============================================================================================-->
+            <script>
+              document.addEventListener('DOMContentLoaded', function() {
+                // Check if the query parameter 'alert' is present in the URL
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.has('alert') && urlParams.get('alert') === 'error') {
+                    alert('متاسفانه مشکلی پیش آمده، لطفا از ابتدا وارد شوید!');
+                }
+            });
+           </script>
 </head>
 
 	
@@ -72,7 +81,7 @@
 
 
 				</form>
-                <a style="float: right; margin-top: 15px" href="{% url 'home-page' %}"> بازگشت به صفحه اصلی </a>
+                <a style="float: right; margin-top: 15px; font-size: large"  href="{% url 'home-page' %}"> بازگشت به صفحه اصلی </a>
 			</div>
 
 		</div>

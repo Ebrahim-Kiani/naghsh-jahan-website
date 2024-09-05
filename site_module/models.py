@@ -1,3 +1,5 @@
+import os
+
 from django.db import models
 
 
@@ -15,7 +17,25 @@ class SiteSetting(models.Model):
     is_main_setting = models.BooleanField(max_length=200, verbose_name='تنظیمات اصلی')
     whatsapp_link = models.CharField(max_length=200, verbose_name='لینک واتساپ')
     instagram_link = models.CharField(max_length=200, verbose_name='لینک اینستاگرام')
+    def delete(self):
 
+        # Delete the image file from the server
+        if self.image:
+            if os.path.isfile(self.site_logo.path):
+                os.remove(self.site_logo.path)
+        super().delete()
+    def save(self, *args, **kwargs):
+        # Check if there's an existing instance of this model
+        try:
+            this = SiteSetting.objects.get(id=self.id)
+            if this.site_logo != self.site_logo:
+                # If the logo has changed, delete the old one
+                if os.path.isfile(this.site_logo.path):
+                    os.remove(this.site_logo.path)
+        except SiteSetting.DoesNotExist:
+            pass  # No existing instance, so skip
+
+        super(SiteSetting, self).save(*args, **kwargs)
     class Meta:
         verbose_name = 'تنظیمات سایت'
         verbose_name_plural = 'تنظیمات'
@@ -55,9 +75,11 @@ class Ads(models.Model):
     text5 = models.CharField(max_length=100, verbose_name='متن پنجم')
     text6 = models.CharField(max_length=100, verbose_name='متن ششم')
 
+    def __str__(self):
+        return "تبلیغات"
     class Meta:
-        verbose_name = 'تبلیغ هدر سایت'
-        verbose_name_plural = 'تبلیغات هدر سایت'
+        verbose_name = 'تبلیغ بالای سایت'
+        verbose_name_plural = 'تبلیغات بالای سایت'
 
 class Service(models.Model):
     our_mission = models.TextField(verbose_name='ماموریت ما:')

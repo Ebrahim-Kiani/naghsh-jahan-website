@@ -46,7 +46,7 @@ class FactorsAdmin(admin.ModelAdmin):
     def jalali_date(self, obj):
 
         shamsi_date = jdatetime.datetime.fromgregorian(datetime=obj.date)
-        return shamsi_date.strftime('%Y-%m-%d')
+        return shamsi_date.strftime('%Y-%m-%d %H:%M:%S')
 
     # Set verbose name for the column
     get_user_full_name.short_description = 'نام و نام خانوادگی کاربر:'  # Label for the column

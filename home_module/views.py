@@ -54,7 +54,8 @@ def products_list(request):
 def home_index(request):
     return render(request, template_name='home_module/home_page.html', context=None)
 
-
+def custom_404(request, exception=None):
+    return render(request, 'shared/404.html', status=404)
 
 
 

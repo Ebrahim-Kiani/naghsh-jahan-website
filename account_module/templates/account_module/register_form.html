@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<!-- Created by CodingLab |www.youtube.com/c/CodingLabYT-->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <!--<title> Login and Registration Form in HTML & CSS | CodingLab </title>-->
+    <link rel="stylesheet" href="{% static 'css/register_style.css' %}">
+    <!-- Fontawesome CDN Link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <script>
+
+            document.addEventListener('DOMContentLoaded', function() {
+                // Check if the query parameter 'alert' is present in the URL
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.has('alert') && urlParams.get('alert') === 'true') {
+                    alert("لطفا یک رمز عبور وارد کنید.");
+                    alert("این رمز عبور وقتی که سامانه پیامکی از کار افتاد استفاده خواهد شد!");
+                }
+
+            });
+        const newPasswordInput = document.getElementById('new-password');
+        const confirmPasswordInput = document.getElementById('confirm-password');
+        const form = document.querySelector('form');
+
+
+      </script>
+   </head>
+<body>
+  <div class="container">
+    <input type="checkbox" id="flip">
+    <div class="cover">
+      <div class="front">
+        <img src="{% static 'images/frontImg.jpg'%}" alt="">
+        <div class="text">
+          <span class="text-1">فروشگاه نقش جهان<br>خوش آمدید</span>
+
+        </div>
+      </div>
+      <div class="back">
+        <img class="backImg"  alt="">
+        <div class="text">
+          <span class="text-1"><br>  </span>
+          <span class="text-2"></span>
+        </div>
+      </div>
+    </div>
+    <div class="forms">
+        <div class="form-content">
+          <div class="login-form">
+            <div class="title">ثبت نام</div>
+          <form action="{% url 'register' %}" method="post">
+              {% csrf_token %}
+
+            <div class="input-boxes">
+
+
+                <div class="input-box">
+                <i class="fas fa-lock"></i>
+
+                  {{ register_form.password }}
+
+
+                </div>
+                <div class="input-box">
+                <i class="fas fa-lock"></i>
+
+                  {{ register_form.confirm_password }}
+
+              </div>
+
+              <div class="button input-box">
+                <input type="submit" value="ثبت نام">
+              </div>
+            </div>
+
+        </form>
+                  {% if register_form.errors %}
+        <div class="alert alert-danger" style="color: red; direction: rtl">
+          {% for field, errors in register_form.errors.items %}
+            {% for error in errors %}
+              <p>خطا : {{ error }}</p>
+            {% endfor %}
+          {% endfor %}
+        </div>
+      {% endif %}
+      </div>
+        </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -36,7 +36,7 @@
 								</a>
                                     </td>
                                     <td class="name-pr">
-                                        <a href="#">
+                                        <a href="{% url 'product-detail' slug=detail.product.slug  %}">
                                             {{ detail.product.title}}
 								</a>
                                     </td>
@@ -105,7 +105,7 @@
                         </div>
                         <hr> </div>
                 </div>
-                <div class="col-12 d-flex shopping-box"><a href="checkout.html" class="ml-auto btn hvr-hover">پرداخت</a> </div>
+                <div class="col-12 d-flex shopping-box"><a onclick="payment({{ current_order.id }})" style="color: white" class="ml-auto btn hvr-hover">پرداخت</a> </div>
             </div>
 
         </div>

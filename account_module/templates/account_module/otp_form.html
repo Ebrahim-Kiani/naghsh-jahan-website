@@ -12,6 +12,17 @@
     <script src="{% static 'js/cdn.js' %}"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+                // Check if the query parameter 'alert' is present in the URL
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.has('alert') && urlParams.get('alert') === 'true') {
+                    alert('پیامک با موفقیت ارسال شد');
+                }else {
+                    alert('متاسفانه پیامک ارسال نشد!');
+                }
+            });
+
         document.addEventListener('DOMContentLoaded', () => {
             const form = document.getElementById('otp-form');
             const inputs = [...form.querySelectorAll('.otp-input')];
@@ -129,12 +140,27 @@
                             </button>
                         </div>
                     </form>
-                    <div class="text-sm text-slate-500 mt-4">آیا دریافت نکردید؟<a class="font-medium text-indigo-500 hover:text-indigo-600" href="{% url 'resend' %}">ارسال دوباره</a>
+                    <div class="text-sm text-slate-500 mt-4"> آیا دریافت نکردید؟
+                        <br>
+                        <br>
+                        <ol type="1">
+                            <li>
+                                <a class="font-medium text-indigo-500 hover:text-indigo-600" href="{% url 'resend' %}">ارسال دوباره پیامک</a>
+                            </li>
+                            <br>
+                            <li>
+                                <a class="font-medium text-indigo-500 hover:text-indigo-600" href="{% url 'login_password' %}">ورود با کلمه عبور</a>
+                            </li>
+                        </ol>
+
 
                     </div>
                     <div class="text-sm text-slate-500 mt-4"><a class="font-medium text-indigo-500 hover:text-indigo-600" href="{% url 'login' %}">ویرایش شماره</a>
 
                     </div>
+
+
+
                     {% if error %}
                         <div style="color: red">
                             {{ error }}

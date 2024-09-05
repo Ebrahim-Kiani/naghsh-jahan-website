@@ -220,7 +220,7 @@ class FactorsListView(ListView):
 
 
 # download factors
-@login_required
+
 def download_factors(request, factor_id):
         # Get the Factors instance
         factor = get_object_or_404(Factors, id=factor_id)

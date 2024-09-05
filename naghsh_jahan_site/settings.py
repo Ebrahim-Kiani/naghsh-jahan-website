@@ -26,9 +26,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-e$v1uzo@mq@92tmp28m3va5lo=)kuc2!hci33!z$zvb^63u$w4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['yourdomain.com', 'localhost', '127.0.0.1']  # Add the appropriate hosts
 
 LOGIN_URL = 'login'
 
@@ -58,10 +58,10 @@ INSTALLED_APPS = [
     'django_htmx',
     'django_otp.plugins.otp_static',
     'sorl.thumbnail',
-   # 'django.contrib.staticfiles',
 
 ]
 AUTH_USER_MODEL = 'account_module.User'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -79,10 +79,10 @@ ROOT_URLCONF = 'naghsh_jahan_site.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [os.path.join(BASE_DIR, '../naghsh_jahan_site', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
+
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -92,8 +92,6 @@ TEMPLATES = [
         },
     },
 ]
-
-WSGI_APPLICATION = 'naghsh_jahan_site.wsgi.application'
 
 
 # Database
@@ -138,16 +136,17 @@ USE_I18N = True
 
 USE_TZ = True
 
-
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 STATIC_URL = '/static/'
 if not DEBUG:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
+
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static/'), ]
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 MEDIA_URL = '/media/'
-MEDIA_ROOT = MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_ROOT  = os.path.join(BASE_DIR, 'media/')
 THUMBNAIL_DEBUG = True
 
 
@@ -156,3 +155,4 @@ THUMBNAIL_DEBUG = True
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+

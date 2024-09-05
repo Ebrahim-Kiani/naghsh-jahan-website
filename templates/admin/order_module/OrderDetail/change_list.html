@@ -1,0 +1,17 @@
+{% extends "admin/change_list.html" %}
+{% block content %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var searchInput = document.getElementById('searchbar');
+    if (searchInput) {
+        searchInput.setAttribute('placeholder', 'شماره سبد خرید...');
+    }
+});
+
+
+</script>    
+<p class="description" style="font-size: 20px; color: #ce063c">
+    برای پیدا کردن جزئیات یک سبد خرید باید شماره آن سبد خرید را جستجو کنید.
+</p>
+{{ block.super }}
+{% endblock %}

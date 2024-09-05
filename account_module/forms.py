@@ -1,35 +1,64 @@
 from django import forms
 from django.contrib.auth import get_user_model
+
 from django.core.exceptions import ValidationError
 import re
 
 from langdetect import LangDetectException, detect
 
+
 User = get_user_model()
 class RegisterForm(forms.ModelForm):
-    confirm_password = forms.CharField(widget=forms.PasswordInput(),label="تکرار رمز عبور",
-                                       error_messages={'required':'تکرار رمز عبور اجباری میباشد'})
+    confirm_password = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={'placeholder': 'تکرار رمز عبور','id': 'confirm-password'}
+        ),error_messages={'required':'تکرار رمز عبور اجباری میباشد'}
+    )
     class Meta:
         model = User
-        fields = ['phone', 'password']
+        fields = ['password', 'confirm_password']
 
         widgets = {
-            'phone': forms.TextInput(),
-            'password': forms.PasswordInput(),
+            'password': forms.PasswordInput(attrs={'placeholder': 'رمز عبور','id' : 'new-password' , 'autocomplete': 'new-password'}),
+
         }
         labels = {
-            'phone': 'شماره همراه:',
+
             'password': "رمز عبور:",
         }
         error_messages = {
-            'phone': {
-                'required': 'شماره همراه اجباری می باشد. لطفا وارد کنید'
-            },
+
             'password':{
                 'required':'رمز عبور اجباری میباشد لطفا آن را وارد کنید'
+            },
+            'confirm_password':{
+                'required': 'تکرار رمز عبور اجباری میباشد لطفا آن را وارد کنید'
             }
 
         }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        confirm_password = cleaned_data.get("confirm_password")
+
+        if password and confirm_password and password != confirm_password:
+            self.add_error('confirm_password', 'رمز عبور با تکرار آن مطابقت ندارد')
+
+class LoginPasswordForm(forms.Form):
+    password = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                'placeholder': 'رمز عبور',
+                'id': 'password',
+                'autocomplete': 'password'
+            }
+        ),
+        label="رمز عبور:",
+        error_messages={
+            'required': 'رمز عبور اجباری میباشد لطفا آن را وارد کنید'
+        }
+    )
 class LoginForm(forms.ModelForm):
     class Meta:
         model = User

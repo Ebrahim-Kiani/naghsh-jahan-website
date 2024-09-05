@@ -1,10 +1,13 @@
+import os
 import random
 from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
 from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from django.db import models
 from django.utils import timezone
 from django.core.exceptions import ValidationError
-
+from account_module.utils.sms_package import SMSHandler
+from django.urls import reverse
+from site_module.models import SiteSetting
 
 class MyUserManager(BaseUserManager):
 
@@ -42,8 +45,14 @@ class MyUserManager(BaseUserManager):
 
 
 def validate_length_10(value):
+    try:
+        int(value)
+    except:
+        raise ValidationError('کد پستی و کد ملی باید به عدد وارد شوند.')
+
     if len(value) != 10:
         raise ValidationError('طول کد پستی و کد ملی باید دقیقا ۱۰ رقم باشد.')
+
 class User(AbstractBaseUser, PermissionsMixin):
     objects = MyUserManager()
     phone = models.CharField(max_length=11, null=True, blank=True, unique=True, verbose_name='تلفن:')
@@ -51,7 +60,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=False, verbose_name='آیا کاربر فعال است؟')
     is_staff = models.BooleanField(default=False, verbose_name='آیا کاربر کارمند است؟')
     address = models.TextField(null=True, blank=False, verbose_name='آدرس شما:')
-    melli_code = models.CharField(max_length=10 ,unique=True, null=True, blank=False, verbose_name='کد ملی', validators=[validate_length_10])
+    melli_code = models.CharField(max_length=10 , null=True, blank=False, verbose_name='کد ملی', validators=[validate_length_10])
     code_posty =  models.CharField(max_length=10 , null=True , blank=False, verbose_name='کد پستی بدون خط فاصله:', validators=[validate_length_10])
     is_completed = models.BooleanField(null=False, blank=True ,default=False)
 
@@ -68,20 +77,62 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Factors(models.Model):
     title = models.CharField(max_length=100, null=False, blank=False, verbose_name='عنوان:')
     file = models.FileField(upload_to='files/factors', null=True, blank=True,verbose_name='فایل فاکتور:')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='کاربر:')
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, verbose_name='کاربر:' , null=True)
     date = models.DateTimeField(null=True, blank=True, verbose_name='تاریخ:', default=timezone.now)
-    code_factor = models.CharField(max_length=6, unique=True ,null=True, blank=False, verbose_name='کد فاکتور:')
+    code_factor = models.CharField(max_length=6,unique=True ,null=True, blank=False, verbose_name='کد فاکتور:')
 
     def __str__(self):
         return f'title: {self.title}, User: {self.user}'
 
+    def send_sms(self):
+        sms_object = SMSHandler(self.user.phone, self.code_factor)
+
+        factor_download_url = reverse('factor-download', kwargs={'factor_id': self.id})
+        main_setting = SiteSetting.objects.filter(is_main_setting=True).first()
+        domain_name = main_setting.site_url
+        factor_download_url = f'http://{domain_name}' +factor_download_url
+
+        SMSHandler.send_factor_code(sms_object, factor_download_url, self.title)
+
     def save(self, *args, **kwargs):
+
         if self.file:
+            try:
+                this = Factors.objects.get(id=self.id)
+                if this.file != self.file:
+                    # If the logo has changed, delete the old one
+                    if os.path.isfile(this.file.path):
+                        os.remove(this.file.path)
+            except Factors.DoesNotExist:
+                pass  # No existing instance, so skip
+
             # File is being added or updated, update the date field with Shamsi date
             self.date = timezone.now()  # Current time in Gregorian
-            self.code_factor = f'{random.randint(0, 999999):06}'
 
-        super().save(*args, **kwargs)
+            success = False
+            retry_limit = 5
+            attempts = 0
+
+            while not success and attempts < retry_limit:
+                try:
+                    self.code_factor = f'{random.randint(0, 999999999):06}'
+                    super().save(*args, **kwargs)
+                    success = True
+                except:
+                    attempts += 1
+
+            if success:
+                self.send_sms()
+            else:
+                raise Exception("we have error to send sms")
+
+    def delete(self):
+
+        # Delete the image file from the server
+        if self.file:
+            if os.path.isfile(self.file.path):
+                os.remove(self.file.path)
+        super().delete()
 
     class Meta:
         verbose_name = "فاکتور"

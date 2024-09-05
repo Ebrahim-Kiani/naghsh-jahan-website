@@ -1,6 +1,5 @@
 {% extends 'shared/_layout.html' %}
 {% load static %}
-{% load thumbnail %}
 {% load product_custom_filters %}
 {% block content %}
     <script src="{% static 'js/product.js' %}"></script>
@@ -13,12 +12,12 @@
                         <div class="carousel-inner" role="listbox">
 
                                 <div class="carousel-item active" id="product-main-image-slide">
-                                    <img  class="d-block w-100" src="{{ product.image.url }}" alt="First slide">
+                                    <img  class="d-block w-100" src="{{ product.image.url }}" alt="First slide" >
                                 </div>
 
                             {% for product_image in product_images %}
                                 <div class="carousel-item" id="product-image-slide{{ product_image.id }}">
-                                    <img  class="d-block w-100" src="{{ product_image.image.url }}" alt="slides">
+                                    <img  class="d-block w-100" src="{{ product_image.image.url }}" alt="slides" >
                                 </div>
                             {% endfor %}
                                 <div class="carousel-item" id="product-main-image-slide">
@@ -38,7 +37,7 @@
 
                             <li  data-target="#carousel-example-1" data-slide-to="0" class="active" id="product-main-image">
                                     <a onclick="showLargeImage('{{ product.image.url }}','product-main-image')">
-                                        <img class="d-block w-100 img-fluid" src="{{ product.image.url }}" alt="" />
+                                        <img class="d-block w-100 img-fluid" src="{{ product.image.url }}" alt=""  />
                                     </a>
                             </li>
 
@@ -68,8 +67,7 @@
                          <h5>  {{ product.price | get_tooman }} </h5>
                     {% endif %}
                         </h5>
-                        <p class="available-stock"><span>موجودی انبار: {{ product.inventory }}</span>
-                            <p>
+
                                 <h4 style="text-align: right; dir:rtl">{{ product.short_description }}:</h4>
                                 <p style="text-align: right; dir:rtl">{{ product.description }} </p>
                                 <ul>
@@ -98,8 +96,14 @@
 
                                     </div>
                                     <div class="share-bar">
-                                        <a class="btn hvr-hover" href="#"><i class="fab fa-whatsapp" aria-hidden="true"></i></a>
-                                        <a class="btn hvr-hover" href="#"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+
+                                        {% if product.whatsup_link %}
+                                            <a class="btn hvr-hover" href="{{ product.whatsup_link }}"><i class="fab fa-whatsapp" aria-hidden="true"></i></a>
+                                        {% endif %}
+
+                                        {% if product.instagram_link %}
+                                            <a class="btn hvr-hover" href="{{ product.instagram_link }}"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                                        {% endif %}
                                     </div>
                                 </div>
                     </div>
@@ -116,9 +120,9 @@
                             <div class="item">
                                 <div class="products-single fix">
                                     <div class="box-img-hover">
-                                        {% thumbnail relative_product.image '550x550' quality=100 crop='center' as im %}
-                                            <img src="{{ im.url }}" class="img-fluid" alt="Image">
-                                        {% endthumbnail %}
+
+                                            <img src="{{ relative_product.image.url }}" class="img-fluid" alt="Image">
+
                                         <div class="mask-icon">
                                             <ul>
                                                 <li><a href="#" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
