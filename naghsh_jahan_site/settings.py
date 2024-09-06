@@ -99,8 +99,12 @@ TEMPLATES = [
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': os.getenv('DATABASE_ENGINE','django.db.backends.mysql'),
+        'NAME': os.getenv('DATABASE_NAME','django945_teresa'),
+        'USER': os.getenv('DATABASE_USER','django945_teresa'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD','A7xZ5aph2cdI'),
+        'HOST': os.getenv('DATABASE_HOST','services.irn5.chabokan.net'),
+        'PORT':  os.getenv('DATABASE_PORT','52691'),
     }
 }
 # settings.py
