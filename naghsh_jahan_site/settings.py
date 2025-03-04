@@ -26,15 +26,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-e$v1uzo@mq@92tmp28m3va5lo=)kuc2!hci33!z$zvb^63u$w4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['yourdomain.com', 'localhost', '127.0.0.1']  # Add the appropriate hosts
+ALLOWED_HOSTS = ['django-naghsh-jahan.chbk.run', 'localhost', '127.0.0.1']  # Add the appropriate hosts
 
 LOGIN_URL = 'login'
 
 # Application definition
+LANGUAGE_CODE = 'fa'
 
 INSTALLED_APPS = [
+    'django.contrib.sitemaps',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -61,7 +63,8 @@ INSTALLED_APPS = [
 
 ]
 AUTH_USER_MODEL = 'account_module.User'
-
+X_FRAME_OPTIONS = "SAMEORIGIN"
+SILENCED_SYSTEM_CHECKS = ["security.W019"]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -79,7 +82,7 @@ ROOT_URLCONF = 'naghsh_jahan_site.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, '../naghsh_jahan_site', 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
 
@@ -100,9 +103,9 @@ TEMPLATES = [
 DATABASES = {
     'default': {
         'ENGINE': os.getenv('DATABASE_ENGINE','django.db.backends.mysql'),
-        'NAME': os.getenv('DATABASE_NAME','django945_teresa'),
-        'USER': os.getenv('DATABASE_USER','django945_teresa'),
-        'PASSWORD': os.getenv('DATABASE_PASSWORD','A7xZ5aph2cdI'),
+        'NAME': os.getenv('DATABASE_NAME','django247_joseph'),
+        'USER': os.getenv('DATABASE_USER','django247_joseph'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD','ObpMbyrmzAzx'),
         'HOST': os.getenv('DATABASE_HOST','services.irn5.chabokan.net'),
         'PORT':  os.getenv('DATABASE_PORT','52691'),
     }
@@ -132,13 +135,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'fa'
+LANGUAGE_CODE = 'fa-ir'
 
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
+USE_L10N = True
 USE_TZ = True
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Static files (CSS, JavaScript, Images)
@@ -159,4 +162,8 @@ THUMBNAIL_DEBUG = True
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CSRF_TRUSTED_ORIGINS = [
+'https://django-naghsh-jahan.chbk.run'
+]
 

@@ -9,12 +9,12 @@ from account_module.utils.sms_package import SMSHandler
 from django.urls import reverse
 from site_module.models import SiteSetting
 
-class MyUserManager(BaseUserManager):
 
-    def create_user(self, phone_number, is_staff=False, **extra_fields):
-        if not phone_number:
+class MyUserManager(BaseUserManager):
+    def create_user(self, phone, is_staff=False, **extra_fields):
+        if not phone:
             raise ValueError('The Phone number must be set')
-        user = self.model(phone_number=phone_number, is_staff=is_staff, **extra_fields)
+        user = self.model(phone=phone, is_staff=is_staff, **extra_fields)
         if is_staff:
             user.set_password(extra_fields.get('password'))
         else:
@@ -22,22 +22,21 @@ class MyUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, phone, full_name, password=None):
+    def create_superuser(self, phone, full_name, password=None, **extra_fields):
+        # Ensure 'phone_number' is included
+        if not phone:
+            raise ValueError('The Phone number must be set')
 
+        # Create the user with provided parameters
         user = self.create_user(
-
             phone=phone,
-
             password=password,
-
             full_name=full_name,
-
+            is_staff=True,
+            is_superuser=True,
+            is_active=True,
+            **extra_fields
         )
-        user.is_active = True
-        user.is_staff = True
-        user.is_superuser = True
-        user.save(using=self._db)
-
         return user
 
     def get_by_natural_key(self, phone):
@@ -79,7 +78,7 @@ class Factors(models.Model):
     file = models.FileField(upload_to='files/factors', null=True, blank=True,verbose_name='فایل فاکتور:')
     user = models.ForeignKey(User, on_delete=models.SET_NULL, verbose_name='کاربر:' , null=True)
     date = models.DateTimeField(null=True, blank=True, verbose_name='تاریخ:', default=timezone.now)
-    code_factor = models.CharField(max_length=6,unique=True ,null=True, blank=False, verbose_name='کد فاکتور:')
+    code_factor = models.CharField(max_length=9,unique=True ,null=True, blank=False, verbose_name='کد فاکتور:')
 
     def __str__(self):
         return f'title: {self.title}, User: {self.user}'
@@ -90,7 +89,7 @@ class Factors(models.Model):
         factor_download_url = reverse('factor-download', kwargs={'factor_id': self.id})
         main_setting = SiteSetting.objects.filter(is_main_setting=True).first()
         domain_name = main_setting.site_url
-        factor_download_url = f'http://{domain_name}' +factor_download_url
+        factor_download_url = f'https://{domain_name}' +factor_download_url
 
         SMSHandler.send_factor_code(sms_object, factor_download_url, self.title)
 
@@ -115,7 +114,7 @@ class Factors(models.Model):
 
             while not success and attempts < retry_limit:
                 try:
-                    self.code_factor = f'{random.randint(0, 999999999):06}'
+                    self.code_factor = f'{random.randint(0, 999999999):09}'
                     super().save(*args, **kwargs)
                     success = True
                 except:

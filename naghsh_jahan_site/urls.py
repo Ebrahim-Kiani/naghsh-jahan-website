@@ -18,7 +18,20 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
+from django.contrib.sitemaps.views import sitemap
+from home_module.sitemaps import HomeSitemap  # ایمپورت نقشه سایت
+from product_module.sitemaps import ProductSitemap
+from category_module.sitemaps import CategorySitemap , BrandSitemap
+
+sitemaps = {
+    'home': HomeSitemap,  # ثبت sitemap صفحه اصلی
+    'products': ProductSitemap,
+    'categories': CategorySitemap,
+    'brands': BrandSitemap,
+}
+
 urlpatterns = [
+
     path('admin/', admin.site.urls),
     path('', include('home_module.urls')),
     path('products/', include('product_module.urls')),
@@ -27,7 +40,10 @@ urlpatterns = [
     path('order/', include('order_module.urls')),
     path('panel/',include('user_panel_module.urls')),
     path('favorite/', include('favorite_module.urls')),
-    path('site/', include('site_module.urls'))
+    path('site/', include('site_module.urls')),
+
+    # site maps
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -46,30 +46,31 @@ class RegisterView(View):
             phone_number = request.session.get('phone_number', None)
 
             user = User.objects.filter(phone=phone_number).first()
-            print(user_password)
+
             if user is not None:
                 user.set_password(user_password)
+                user.is_active = True
                 user.save()
-
-                otp_value = send_otp(user)
-                request.session['otp_value'] = otp_value
-                request.session['phone_number'] = phone_number
-                print(otp_value)
-
-
-                sms_object = SMSHandler(user.phone, otp_value)
-                try:
-                    # sending sms
-                    status = SMSHandler.send_otp(sms_object)  # status of sending sms
-
-                    # send alert and return to login page if status is False
-                    if status == True:
-                        return HttpResponseRedirect(f"{reverse('verify')}?alert=true")
-                    else:
-                        return HttpResponseRedirect(f"{reverse('verify')}?alert=false")
-                except Exception:
-                    return HttpResponseRedirect(f"{reverse('login')}?alert=error")
-
+                login(request, user)
+                # otp_value = send_otp(user)
+                # request.session['otp_value'] = otp_value
+                # request.session['phone_number'] = phone_number
+                #
+                #
+                #
+                # sms_object = SMSHandler(user.phone, otp_value)
+                # try:
+                #     # sending sms
+                #     status = SMSHandler.send_otp(sms_object)  # status of sending sms
+                #
+                #     # send alert and return to login page if status is False
+                #     if status == True:
+                #         return HttpResponseRedirect(f"{reverse('verify')}?alert=true")
+                #     else:
+                #         return HttpResponseRedirect(f"{reverse('verify')}?alert=false")
+                # except Exception:
+                #     return HttpResponseRedirect(f"{reverse('login')}?alert=error")
+                return redirect('my_account')
 
 
 
@@ -100,7 +101,7 @@ class LoginView(View):
                 return HttpResponseRedirect(f"{reverse('register')}?alert=true")
 
             otp_value = send_otp(user)
-            print(otp_value)
+
 
             # set object of sms class
             sms_object = SMSHandler(user.phone, otp_value)
@@ -154,7 +155,7 @@ def resend_otp(request):
     user = User.objects.get(phone=user_phone)
 
     otp_value = send_otp(user)
-    print(otp_value)
+
 
 
 

@@ -7,7 +7,7 @@ from django.db import models
 
 class SiteSetting(models.Model):
     site_name = models.CharField(max_length=200, verbose_name='نام سایت')
-    site_url = models.CharField(max_length=200, verbose_name='دامنه سایت')
+    site_url = models.CharField(max_length=200, verbose_name='نام دامنه سایت بدون (//:https)')
     address = models.CharField(max_length=300, verbose_name='آدرس')
     address2 = models.CharField(max_length=300, verbose_name='آدرس2' , blank=True)
     phone = models.CharField(max_length=200, null=True, blank=True, verbose_name='تلفن')
@@ -15,8 +15,11 @@ class SiteSetting(models.Model):
     about_us_text = models.TextField(verbose_name='متن درباره ما سایت')
     site_logo = models.ImageField(upload_to='images/site-setting/', verbose_name='لوگو سایت')
     is_main_setting = models.BooleanField(max_length=200, verbose_name='تنظیمات اصلی')
-    whatsapp_link = models.CharField(max_length=200, verbose_name='لینک واتساپ')
-    instagram_link = models.CharField(max_length=200, verbose_name='لینک اینستاگرام')
+    whatsapp_link = models.CharField(max_length=200, verbose_name='لینک واتساپ همراه با (//:https)', null=True , blank=True)
+    instagram_link = models.CharField(max_length=200, verbose_name='لینک اینستاگرام همراه با (//:https)', null=True , blank=True)
+    eitaa_link = models.CharField(max_length=200, verbose_name='لینک ایتا همراه با (//:https)', null=True , blank=True)
+    roobika_link = models.CharField(max_length=200, verbose_name='لینک روبیکا همراه با (//:https)', null=True , blank=True)
+    telegram_link = models.CharField(max_length=200, verbose_name='لینک تلگرام همراه با (//:https)', null=True , blank=True)
     def delete(self):
 
         # Delete the image file from the server
@@ -82,10 +85,7 @@ class Ads(models.Model):
         verbose_name_plural = 'تبلیغات بالای سایت'
 
 class Service(models.Model):
-    our_mission = models.TextField(verbose_name='ماموریت ما:')
-    our_vision = models.TextField(verbose_name='دیدگاه ما:')
-    our_philosophy = models.TextField(verbose_name='فلسفه ما:')
-    we_are_trusted = models.TextField(verbose_name='به ما اعتماد کنید زیرا:')
+    our_mission = models.TextField(verbose_name='نمایندگان ما:')
     we_are_professional = models.TextField(verbose_name='ما حرفه ای هستیم زیرا:')
     our_stories = models.TextField(verbose_name='داستان ما:')
 

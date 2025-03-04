@@ -4,26 +4,38 @@
     <footer>
         <div class="footer-main">
             <div class="container">
-                <div class="row">
+                <div class="row"    style="direction: rtl; text-align: right;align-content:normal">
                     <div class="col-lg-4 col-md-12 col-sm-12">
                         <div class="footer-widget">
                             <h4>{{ site_setting.site_name }}</h4>
                             <p>{{ site_setting.about_us_text }}
                                 </p>
-                            <ul>
-                                <li><a href="#"><i class="fab fa-telegram" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fab fa-whatsapp" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fab fa-instagram" aria-hidden="true"></i></a></li>
+                            <ul>    
+                                {% if site_setting.telegram_link %}
+                                    <li><a href="{{site_setting.telegram_link}}" target="_blank" rel="noopener noreferrer"><i class="fab fa-telegram" aria-hidden="true" ></i></a></li>
+                                {% endif %}
+                            {% if site_setting.whatsapp_link %}
+                                <li><a href="{{site_setting.whatsapp_link}}"><i class="fab fa-whatsapp" aria-hidden="true"></i></a></li>
+                            {% endif %}
+                            {% if site_setting.instagram_link %}
+                                <li><a href="{{site_setting.instagram_link}}"><i class="fab fa-instagram" aria-hidden="true"></i></a></li>
+                            {% endif %}
+                            {% if site_setting.eitaa_link %}
+                                <li><a href="{{site_setting.eitaa_link}}"><i class="fab fa-viber" aria-hidden="true"></i></a></li>
+                            {% endif %}
+                            {% if site_setting.roobika_link %}
+                                <li><a href="{{site_setting.roobika_link}}"><i class="fab fa-reddit" aria-hidden="true"></i></a></li>
+                            {% endif %}
 
                             </ul>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-12 col-sm-12">
                         <div class="footer-link">
-                            <h4>Information</h4>
+                            <h4>اطلاعات بیشتر</h4>
                             <ul>
-                                <li><a href="#">درباره ما</a></li>
-                                <li><a href="#">سرویس های ما</a></li>
+                                <li><a href="{% url 'about_us' %}">درباره ما</a></li>
+                                <li><a href="{% url 'our_service' %}">سرویس های ما</a></li>
                                 <li><a href="{% url 'product-list' %}">محصولات</a></li>
                                 <li><a href="{% url 'contact_us' %}">ارتباط با ما</a></li>
                             </ul>
@@ -31,22 +43,22 @@
                     </div>
                     <div class="col-lg-4 col-md-12 col-sm-12">
                         <div class="footer-link-contact">
-                            <h4>Contact Us</h4>
+                            <h4>تماس با ما</h4>
                             <ul>
                                 <li>
-                                    <p><i class="fas fa-map-marker-alt"></i>Address: {{ site_setting.address }}</p>
+                                    <p><i class="fas fa-map-marker-alt"></i>آدرس: {{ site_setting.address }}</p>
                                 </li>
 
 
                                 {% if site_setting.address2 %}
                                 <li>
-                                    <p><i class="fas fa-map-marker-alt"></i>Address2: {{ site_setting.address2 }}</p>
+                                    <p><i class="fas fa-map-marker-alt"></i>آدرس دوم: {{ site_setting.address2 }}</p>
                                 </li>
                                 {% endif %}
 
 
                                 <li>
-                                    <p><i class="fas fa-phone-square"></i>Phone: <a href="tel:{{ site_setting.phone }}">{{ site_setting.phone }}</a></p>
+                                    <p><i class="fas fa-phone-square"></i>تلفن: <a href="tel:{{ site_setting.phone }}">{{ site_setting.phone }}</a></p>
                                 </li>
 
                             </ul>
@@ -60,7 +72,7 @@
 
     <!-- Start copyright  -->
     <div class="footer-copyright">
-        <p class="footer-company">کلیه حقوق این وبسایت نزد پرده سرای نقش جهان محفوظ میباشد
+        <p class="footer-company">کلیه حقوق این وبسایت نزد برند روشن بافت محفوظ میباشد
         </p>
     </div>
     <!-- End copyright  -->

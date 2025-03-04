@@ -104,21 +104,22 @@ class ProductDetailView(DetailView):
         context['is_favorite'] = favorite_product_id == str(loaded_product.id)
         product_images = ProductImage.objects.filter(product=loaded_product)
         query = """
-                    SELECT DISTINCT *
-                    FROM product_module_product
-                    WHERE id IN (
-                        SELECT product_id
-                        FROM product_module_product_category
-                        WHERE productcategory_id IN (
-                            SELECT productcategory_id
-                            FROM product_module_product_category
-                            WHERE product_id = %s
-                        )
-                    )
-                    AND id != %s
-                    ORDER BY RANDOM()
-                    LIMIT 8
-                """
+            SELECT DISTINCT *
+            FROM product_module_product
+            WHERE id IN (
+                SELECT product_id
+                FROM product_module_product_category
+                WHERE productcategory_id IN (
+                    SELECT productcategory_id
+                    FROM product_module_product_category
+                    WHERE product_id = %s
+                )
+            )
+            AND id != %s
+            ORDER BY RAND()
+            LIMIT 8
+        """
+
         relative_products = list(Product.objects.raw(query, [loaded_product.id, loaded_product.id]))
         context['relative_products'] = relative_products
 
